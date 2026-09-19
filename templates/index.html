@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tool-Using Research Agent | AgenticX AI Labs</title>
+  <meta name="description" content="Autonomous Tool-Using Research Agent featuring dynamic tool selection, hard step limits, claim traceability, and graceful error handling." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-content">
+        <div class="brand">
+          <div class="brand-badge">AgenticX Project 1</div>
+          <h1>Tool-Using Research Agent</h1>
+        </div>
+        <div class="header-metrics">
+          <div class="metric-pill">
+            <span class="metric-label">Max Limit</span>
+            <span class="metric-value">6 Steps</span>
+          </div>
+          <div class="metric-pill">
+            <span class="metric-label">Active Tools</span>
+            <span class="metric-value">web_search & fetch_page</span>
+          </div>
+          <div class="metric-pill">
+            <span class="metric-label">Traceability</span>
+            <span class="metric-value">Verified [S#]</span>
+          </div>
+        </div>
+      </div>
+      <p class="header-subtitle">
+        Autonomous web research system with dynamic multi-tool planning, bounded step loop, citation verification, and resilient failure recovery.
+      </p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-layout">
+      <!-- Search Input Section -->
+      <section class="search-section card">
+        <form id="research-form" class="research-form">
+          <div class="input-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              type="text"
+              id="question-input"
+              class="question-input"
+              placeholder="Ask any research question (e.g. What are the main applications of generative AI in healthcare?)"
+              required
+              autocomplete="off"
+            />
+            <button type="submit" id="submit-btn" class="submit-btn">
+              <span class="btn-text">Research</span>
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <!-- Example Prompts -->
+        <div class="examples-container">
+          <span class="examples-label">Try an example:</span>
+          <div class="example-chips" id="example-chips">
+            <button type="button" class="chip" data-query="What are the main applications of generative AI in healthcare?">
+              🏥 GenAI in Healthcare
+            </button>
+            <button type="button" class="chip" data-query="What are the environmental effects of electric vehicles?">
+              ⚡ EV Environmental Impact
+            </button>
+            <button type="button" class="chip" data-query="What is the difference between supervised and unsupervised machine learning?">
+              🤖 Supervised vs Unsupervised ML
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Status / Loading Bar -->
+      <div id="status-panel" class="status-panel hidden">
+        <div class="status-indicator">
+          <div class="spinner"></div>
+          <div class="status-details">
+            <span class="status-title" id="status-text">Agent is planning and investigating...</span>
+            <span class="status-sub" id="status-sub">Iterating through tools within MAX_AGENT_STEPS</span>
+          </div>
+        </div>
+        <div class="step-progress-wrapper">
+          <div class="step-badge" id="step-counter-badge">Step 0 / 6</div>
+        </div>
+      </div>
+
+      <!-- Error / Notification Area -->
+      <div id="error-banner" class="alert-banner hidden">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-content">
+          <div class="alert-title" id="error-title">Notice</div>
+          <div class="alert-body" id="error-message"></div>
+        </div>
+      </div>
+
+      <!-- Results Grid (Split view: Answer on left, Trace/Sources on right) -->
+      <div id="results-container" class="results-grid hidden">
+        <!-- Left Column: Synthesized Answer -->
+        <div class="column answer-column">
+          <div class="card panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <span class="panel-icon">📝</span>
+                <h2>Evidence-Based Answer</h2>
+              </div>
+              <div class="panel-meta">
+                <span class="status-chip" id="response-status-badge">Completed</span>
+                <span class="steps-chip" id="response-steps-badge">4 / 6 Steps</span>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div id="answer-content" class="markdown-content"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Tool Activity & Source Registry -->
+        <div class="column inspector-column">
+          <!-- Tool Execution Activity -->
+          <div class="card panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <span class="panel-icon">⚙️</span>
+                <h2>Agent Tool Activity</h2>
+              </div>
+              <span class="count-badge" id="activity-count">0 Actions</span>
+            </div>
+            <div class="panel-body">
+              <div id="activity-timeline" class="activity-timeline">
+                <!-- Dynamically populated tool steps -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Registered Sources -->
+          <div class="card panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <span class="panel-icon">📚</span>
+                <h2>Source Registry</h2>
+              </div>
+              <span class="count-badge" id="sources-count">0 Sources</span>
+            </div>
+            <div class="panel-body">
+              <div id="sources-list" class="sources-list">
+                <!-- Dynamically populated source cards -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Raw Audit Log Drawer -->
+          <details class="card panel audit-panel">
+            <summary class="panel-header cursor-pointer">
+              <div class="panel-title-group">
+                <span class="panel-icon">🔍</span>
+                <h2>Inspect Raw Agent State</h2>
+              </div>
+              <span class="expand-indicator">▼</span>
+            </summary>
+            <div class="panel-body">
+              <pre id="raw-json-viewer" class="raw-json">No data yet.</pre>
+            </div>
+          </details>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>AgenticX AI Labs • Internship Project 1: Tool-Using Research Agent</p>
+      <p class="footer-sub">Enforcing 4 Assessment Criteria: Multi-Tool Selection • Step Limit (6) • Claim Traceability • Resilient Tool Recovery</p>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
