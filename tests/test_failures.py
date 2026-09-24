@@ -3,6 +3,7 @@
 from unittest.mock import MagicMock, patch
 import json
 import pytest
+from google.api_core.exceptions import GoogleAPIError
 
 from app.agent.research_agent import ResearchAgent
 from app.agent.state import AgentState
@@ -13,14 +14,14 @@ from app.tools.base import ToolResult
 class TestGracefulFailures:
     """Ensure agent never crashes upon unexpected tool or network errors."""
 
-    def test_missing_openai_key_returns_graceful_error(self):
-        """Test agent behavior when OpenAI API key is completely missing."""
-        with patch.object(config, "OPENAI_API_KEY", ""):
+    def test_missing_gemini_key_returns_graceful_error(self):
+        """Test agent behavior when Gemini API key is completely missing."""
+        with patch.object(config, "GEMINI_API_KEY", ""):
             agent = ResearchAgent()
             state = agent.run("What is quantum computing?")
 
             assert state.status == "failed"
-            assert "OpenAI API key is missing" in state.final_answer
+            assert "Gemini API key is missing" in state.final_answer
             assert len(state.errors) > 0
 
     def test_all_tools_failing_does_not_invent_answer(self):
@@ -29,20 +30,20 @@ class TestGracefulFailures:
 
         # Step 1: LLM searches
         # Step 2: LLM finishes because no evidence was found
-        mock_client.chat.completions.create.side_effect = [
-            MagicMock(choices=[MagicMock(message=MagicMock(content=json.dumps({
+        mock_client.generate_content.side_effect = [
+            MagicMock(text=json.dumps({
                 "thought": "Let's search for this obscure query.",
                 "action": "web_search",
                 "query": "obscure_query_xyz",
-            })))]),
-            MagicMock(choices=[MagicMock(message=MagicMock(content=json.dumps({
+            })),
+            MagicMock(text=json.dumps({
                 "thought": "Search failed, finishing.",
                 "action": "finish",
                 "reason": "No evidence available.",
-            })))]),
+            })),
         ]
 
-        agent = ResearchAgent(openai_client=mock_client)
+        agent = ResearchAgent(gemini_client=mock_client)
 
         failed_search_result = ToolResult(
             tool_name="web_search",
@@ -64,30 +65,30 @@ class TestGracefulFailures:
         """When fetch_page fails on a bad URL, the agent records it and continues."""
         mock_client = MagicMock()
 
-        mock_client.chat.completions.create.side_effect = [
+        mock_client.generate_content.side_effect = [
             # Step 1: Search
-            MagicMock(choices=[MagicMock(message=MagicMock(content=json.dumps({
+            MagicMock(text=json.dumps({
                 "thought": "Search first",
                 "action": "web_search",
                 "query": "health AI",
-            })))]),
+            })),
             # Step 2: Fetch broken page
-            MagicMock(choices=[MagicMock(message=MagicMock(content=json.dumps({
+            MagicMock(text=json.dumps({
                 "thought": "Try fetching deep page",
                 "action": "fetch_page",
                 "url": "https://example.com/broken-link",
-            })))]),
+            })),
             # Step 3: Finish with what we have
-            MagicMock(choices=[MagicMock(message=MagicMock(content=json.dumps({
+            MagicMock(text=json.dumps({
                 "thought": "Finish with search snippet",
                 "action": "finish",
                 "reason": "Search snippet is enough.",
-            })))]),
+            })),
             # Synthesis
-            MagicMock(choices=[MagicMock(message=MagicMock(content="AI is applied in diagnostics. [S1]"))]),
+            MagicMock(text="AI is applied in diagnostics. [S1]"),
         ]
 
-        agent = ResearchAgent(openai_client=mock_client)
+        agent = ResearchAgent(gemini_client=mock_client)
 
         search_result = ToolResult(
             tool_name="web_search",
@@ -114,3 +115,44 @@ class TestGracefulFailures:
         assert state.tool_history[1].success is False
         assert "fetch_page failed" in state.errors[0]
         assert "[S1]" in state.final_answer
+
+    def test_gemini_api_error_during_synthesis_handled_gracefully(self):
+        """When Gemini raises a GoogleAPIError during synthesis, agent handles it gracefully."""
+        mock_client = MagicMock()
+        mock_client.generate_content.side_effect = GoogleAPIError("Resource has been exhausted (e.g. check quota).")
+
+        agent = ResearchAgent(gemini_client=mock_client)
+        state = AgentState(question="Test query", max_steps=6)
+        state.register_source(
+            url="https://example.com/test",
+            title="Test",
+            snippet="Some valid snippet",
+            tool="web_search",
+            retrieval_status="success",
+        )
+
+        agent._synthesize_and_validate(state)
+
+        assert state.status == "failed"
+        assert "An error occurred while synthesizing" in state.final_answer
+        assert len(state.errors) > 0
+
+    def test_malformed_gemini_decision_uses_fallback(self):
+        """When Gemini returns malformed non-JSON during decision, fallback is triggered."""
+        mock_client = MagicMock()
+        # Returns raw non-JSON text
+        mock_client.generate_content.return_value = MagicMock(text="I am not returning JSON today!")
+
+        agent = ResearchAgent(gemini_client=mock_client)
+        dummy_search_result = ToolResult(
+            tool_name="web_search",
+            success=True,
+            data=[{"title": "Result", "url": "https://example.com", "snippet": "Text", "domain": "example.com"}],
+        )
+
+        with patch("app.agent.research_agent.web_search", return_value=dummy_search_result):
+            decision = agent._decide_next_action(AgentState(question="What is quantum?"))
+
+        # Since no sources existed initially, fallback initiates web_search
+        assert decision["action"] == "web_search"
+        assert "fallback" in decision["thought"].lower()

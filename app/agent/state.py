@@ -4,7 +4,7 @@ from typing import Optional
 from urllib.parse import urlparse
 from pydantic import BaseModel, Field
 
-from app.models.schemas import SourceItem, ToolCallRecord
+from app.models.schemas import SourceItem, ToolCallRecord, AgentStatus
 
 
 class AgentState(BaseModel):
@@ -20,7 +20,16 @@ class AgentState(BaseModel):
     url_to_source_id: dict[str, str] = Field(default_factory=dict)
     errors: list[str] = Field(default_factory=list)
     final_answer: Optional[str] = None
-    status: str = "running"  # "running", "completed", "step_limit_reached", "failed"
+    status: AgentStatus = AgentStatus.RUNNING
+
+    timing: dict[str, float] = Field(default_factory=lambda: {
+        "planning_time": 0.0,
+        "web_search_time": 0.0,
+        "fetch_page_time": 0.0,
+        "synthesis_time": 0.0,
+        "total_time": 0.0,
+    })
+    executed_queries: list[str] = Field(default_factory=list)
 
     def register_source(
         self,
@@ -77,6 +86,7 @@ class AgentState(BaseModel):
         inputs: dict,
         success: bool,
         summary: str,
+        duration: Optional[float] = None,
     ) -> ToolCallRecord:
         """Record a completed tool call into the step audit log."""
         record = ToolCallRecord(
@@ -85,6 +95,7 @@ class AgentState(BaseModel):
             input=inputs,
             success=success,
             summary=summary,
+            duration=round(duration, 2) if duration is not None else None,
         )
         self.tool_history.append(record)
         return record

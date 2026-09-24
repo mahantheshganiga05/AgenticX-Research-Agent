@@ -23,32 +23,32 @@ class TestAgentWorkflow:
         mock_client = MagicMock()
 
         # 3 decision steps + 1 synthesis step
-        mock_client.chat.completions.create.side_effect = [
+        mock_client.generate_content.side_effect = [
             # Step 1: choose web_search
-            MagicMock(choices=[MagicMock(message=MagicMock(content=json.dumps({
+            MagicMock(text=json.dumps({
                 "thought": "I need to search for applications of generative AI in healthcare.",
                 "action": "web_search",
                 "query": "generative AI in healthcare applications",
-            })))]),
+            })),
             # Step 2: choose fetch_page on the discovered URL for deeper evidence
-            MagicMock(choices=[MagicMock(message=MagicMock(content=json.dumps({
+            MagicMock(text=json.dumps({
                 "thought": "The article from HealthTech looks promising. Let's read the full page.",
                 "action": "fetch_page",
                 "url": "https://healthtech.example.com/genai",
-            })))]),
+            })),
             # Step 3: choose finish
-            MagicMock(choices=[MagicMock(message=MagicMock(content=json.dumps({
+            MagicMock(text=json.dumps({
                 "thought": "I now have sufficient evidence to answer thoroughly.",
                 "action": "finish",
                 "reason": "Complete evidence gathered.",
-            })))]),
+            })),
             # Step 4: Synthesis call
-            MagicMock(choices=[MagicMock(message=MagicMock(content=(
+            MagicMock(text=(
                 "Generative AI transforms healthcare by drafting clinical documentation and assisting diagnostics. [S1]"
-            )))]),
+            )),
         ]
 
-        agent = ResearchAgent(openai_client=mock_client, max_steps=6)
+        agent = ResearchAgent(gemini_client=mock_client, max_steps=6)
 
         search_tool_result = ToolResult(
             tool_name="web_search",
@@ -112,6 +112,7 @@ class TestFastAPIRoutes:
         data = response.json()
         assert data["status"] == "healthy"
         assert data["max_agent_steps"] == 6
+        assert "gemini_configured" in data
 
     def test_example_endpoint(self):
         client = TestClient(app)

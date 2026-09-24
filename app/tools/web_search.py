@@ -104,10 +104,17 @@ def web_search(query: str, max_results: Optional[int] = None) -> ToolResult:
             )
 
         structured_results = []
+        seen_urls = set()
         for item in raw_results:
             url = item.get("url", "").strip()
             if not url:
                 continue
+
+            # Deduplicate by normalized URL (lowercase host, path without trailing slash or fragments)
+            norm_url = url.split("#")[0].rstrip("/").lower()
+            if norm_url in seen_urls:
+                continue
+            seen_urls.add(norm_url)
 
             domain = urlparse(url).netloc
             title = item.get("title", "Untitled Source").strip()
@@ -120,12 +127,17 @@ def web_search(query: str, max_results: Optional[int] = None) -> ToolResult:
                 "snippet": content,
             })
 
+        # Rank sources to prefer authoritative and rich evidence without discarding non-preferred domains
+        ranked_results = rank_and_select_sources(structured_results, clean_query)
+        # Cap at requested limit (typically 3-4 sources)
+        final_results = ranked_results[:limit]
+
         return ToolResult(
             tool_name=tool_name,
             success=True,
-            data=structured_results,
+            data=final_results,
             error=None,
-            message=f"Successfully retrieved {len(structured_results)} search results for '{clean_query}'.",
+            message=f"Successfully retrieved {len(final_results)} search results for '{clean_query}'.",
         )
 
     except httpx.TimeoutException:
@@ -155,3 +167,44 @@ def web_search(query: str, max_results: Optional[int] = None) -> ToolResult:
             error=f"Unexpected error: {str(e)}",
             message="An unexpected error occurred during search.",
         )
+
+
+def rank_and_select_sources(raw_sources: list[dict], query: str) -> list[dict]:
+    """Rank search results to prefer authoritative or primary sources where possible.
+    
+    Adheres to:
+    - No hard-coded specific domains (uses general authority signals like .edu, .gov, .org, subdomains).
+    - Never removes sources merely because they are not from a preferred domain.
+    """
+    if not raw_sources:
+        return []
+
+    def score_source(item: dict) -> float:
+        domain = (item.get("domain") or "").lower()
+        snippet = item.get("snippet") or ""
+        title = (item.get("title") or "").lower()
+        q_tokens = [t for t in query.lower().split() if len(t) > 3]
+
+        score = 0.0
+
+        # General authoritative TLDs / institutional cues (NOT hard-coded domains)
+        if any(domain.endswith(tld) for tld in (".edu", ".gov", ".org", ".int", ".mil")):
+            score += 2.5
+        if any(prefix in domain for prefix in ("research.", "docs.", "arxiv.", "data.", "standards.", "academic.")):
+            score += 2.0
+
+        # Informational richness of snippet
+        if len(snippet) > 250:
+            score += 2.0
+        elif len(snippet) > 100:
+            score += 1.0
+
+        # Query relevance matching
+        token_matches = sum(1 for t in q_tokens if t in title or t in snippet.lower())
+        score += min(token_matches * 0.5, 2.0)
+
+        return score
+
+    # Stable sort by authority/relevance score descending
+    return sorted(raw_sources, key=score_source, reverse=True)
+

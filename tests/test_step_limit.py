@@ -15,7 +15,7 @@ class TestStepLimit:
 
     def test_default_max_steps_configuration(self):
         """Verify default configuration enforces MAX_AGENT_STEPS = 6."""
-        agent = ResearchAgent(openai_client=MagicMock())
+        agent = ResearchAgent(gemini_client=MagicMock())
         assert agent.max_steps == 6
         assert config.MAX_AGENT_STEPS == 6
 
@@ -39,19 +39,19 @@ class TestStepLimit:
             "Generative AI enhances diagnostics and operational efficiency in healthcare. [S1]"
         )
 
-        mock_client.chat.completions.create.side_effect = [
+        mock_client.generate_content.side_effect = [
             # 6 decision calls
-            MagicMock(choices=[MagicMock(message=MagicMock(content=decision_payload))]),
-            MagicMock(choices=[MagicMock(message=MagicMock(content=decision_payload))]),
-            MagicMock(choices=[MagicMock(message=MagicMock(content=decision_payload))]),
-            MagicMock(choices=[MagicMock(message=MagicMock(content=decision_payload))]),
-            MagicMock(choices=[MagicMock(message=MagicMock(content=decision_payload))]),
-            MagicMock(choices=[MagicMock(message=MagicMock(content=decision_payload))]),
+            MagicMock(text=decision_payload),
+            MagicMock(text=decision_payload),
+            MagicMock(text=decision_payload),
+            MagicMock(text=decision_payload),
+            MagicMock(text=decision_payload),
+            MagicMock(text=decision_payload),
             # 1 synthesis call
-            MagicMock(choices=[MagicMock(message=MagicMock(content=synthesis_payload))]),
+            MagicMock(text=synthesis_payload),
         ]
 
-        agent = ResearchAgent(openai_client=mock_client, max_steps=6)
+        agent = ResearchAgent(gemini_client=mock_client, max_steps=6)
 
         # Mock web_search tool to succeed and provide evidence
         mock_tool_result = ToolResult(
@@ -79,11 +79,11 @@ class TestStepLimit:
     def test_custom_step_limit_capping(self):
         """Verify custom requested steps cannot exceed the hard ceiling."""
         mock_client = MagicMock()
-        mock_client.chat.completions.create.return_value = MagicMock(
-            choices=[MagicMock(message=MagicMock(content=json.dumps({"action": "finish", "reason": "done"})))]
+        mock_client.generate_content.return_value = MagicMock(
+            text=json.dumps({"action": "finish", "reason": "done"})
         )
 
-        agent = ResearchAgent(openai_client=mock_client, max_steps=6)
+        agent = ResearchAgent(gemini_client=mock_client, max_steps=6)
 
         # Requesting 20 steps should be clamped to 6
         state = agent.run("Test query", max_steps=20)

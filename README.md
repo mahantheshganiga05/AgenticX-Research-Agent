@@ -199,7 +199,7 @@ while state.steps_used < state.max_steps:
 - **Language**: Python 3.11+ (Tested on Python 3.13.5)
 - **Application Framework**: FastAPI
 - **Server**: Uvicorn
-- **LLM / Reasoning Layer**: OpenAI API (`openai>=1.10.0`, default model `gpt-4o-mini`)
+- **LLM / Reasoning Layer**: Google Gemini API (`google-generativeai>=0.8.0`, default model `gemini-3.6-flash`)
 - **Web Search**: Tavily Search API (`httpx` direct client & `tavily-python`)
 - **Web Scraping & Parsing**: `httpx` & `beautifulsoup4`
 - **Data Validation & Schemas**: Pydantic v2
@@ -299,9 +299,9 @@ cp .env.example .env
 Edit `.env` with your API keys:
 
 ```ini
-# OpenAI API Configuration (Required for live agent reasoning)
-OPENAI_API_KEY=sk-your-openai-api-key-here
-OPENAI_MODEL=gpt-4o-mini
+# Google Gemini API Configuration (Required for live agent reasoning)
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-3.6-flash
 
 # Tavily API Configuration (Required for live web search)
 TAVILY_API_KEY=tvly-your-tavily-api-key-here
@@ -416,7 +416,7 @@ python -m pytest -v
    - Rejects citations to sources whose retrieval failed.
    - Validates markdown sources footer builder and claims breakdown.
 4. **`tests/test_failures.py`**:
-   - Missing OpenAI key handling.
+   - Missing Gemini key handling and Gemini API failure resiliency.
    - Complete tool outage: agent returns honest fallback message, never invents answers.
    - Broken URL on `fetch_page`: records failure and continues workflow.
 5. **`tests/test_agent.py`**:

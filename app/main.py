@@ -13,6 +13,7 @@ from fastapi.staticfiles import StaticFiles
 from app.config import config
 from app.agent.research_agent import ResearchAgent
 from app.models.schemas import ResearchRequest, ResearchResponse
+from app.services.history_store import history_store
 
 # Configure logging
 logging.basicConfig(
@@ -62,9 +63,9 @@ def health_check():
         "status": "healthy",
         "service": "AgenticX Research Agent",
         "max_agent_steps": config.MAX_AGENT_STEPS,
-        "model": config.OPENAI_MODEL,
-        "openai_configured": bool(config.OPENAI_API_KEY and config.OPENAI_API_KEY != "your_openai_api_key_here"),
-        "tavily_configured": bool(config.TAVILY_API_KEY and config.TAVILY_API_KEY != "your_tavily_api_key_here"),
+        "model": config.GEMINI_MODEL,
+        "gemini_configured": bool(config.GEMINI_API_KEY and config.GEMINI_API_KEY not in ("your_gemini_api_key_here", "your_actual_key_here")),
+        "tavily_configured": bool(config.TAVILY_API_KEY and config.TAVILY_API_KEY not in ("your_tavily_api_key_here", "your_actual_key_here")),
     }
 
 
@@ -89,6 +90,21 @@ def run_research(request: ResearchRequest):
         agent = ResearchAgent()
         state = agent.run(question=request.question, max_steps=request.max_steps)
 
+        # Persist completed research session into SQLite history store
+        try:
+            history_store.save_session(
+                question=state.question,
+                answer=state.final_answer or "",
+                sources=state.get_source_list(),
+                tool_history=state.tool_history,
+                steps_used=state.steps_used,
+                max_steps=state.max_steps,
+                status=state.status,
+                timing=state.timing,
+            )
+        except Exception as he:
+            logger.warning(f"Failed to persist research history: {he}")
+
         return ResearchResponse(
             question=state.question,
             answer=state.final_answer or "No answer could be generated.",
@@ -98,7 +114,44 @@ def run_research(request: ResearchRequest):
             tool_history=state.tool_history,
             errors=state.errors,
             status=state.status,
+            timing=state.timing,
         )
     except Exception as e:
         logger.error(f"Error handling research request: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Internal research agent error: {str(e)}")
+
+
+@app.get("/api/history")
+def list_history():
+    """Retrieve all previously saved research sessions."""
+    try:
+        sessions = history_store.list_sessions()
+        return {"history": sessions}
+    except Exception as e:
+        logger.error(f"Error retrieving research history: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch history: {str(e)}")
+
+
+@app.get("/api/history/{session_id}")
+def get_history_session(session_id: str):
+    """Retrieve full saved research session by ID."""
+    session = history_store.get_session(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Research session not found")
+    return session
+
+
+@app.delete("/api/history/{session_id}")
+def delete_history_session(session_id: str):
+    """Delete a research session by ID."""
+    deleted = history_store.delete_session(session_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Research session not found")
+    return {"deleted": True, "id": session_id}
+
+
+@app.delete("/api/history")
+def clear_all_history():
+    """Clear all saved research sessions."""
+    history_store.clear_all()
+    return {"cleared": True}
