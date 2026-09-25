@@ -3,757 +3,668 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tool-Using Research Agent | AI Research Workspace</title>
-  <meta name="description" content="AI Cyber Research Command Center. Autonomous multi-tool loops, verified evidence, traceable citations, and persistent session archive." />
+  <title>AgenticX | Tool-Using Research Agent</title>
+  <meta name="description" content="AgenticX Tool-Using Research Agent. Futuristic cyber-intelligence research terminal powered by Gemini, Tavily, and fetch_page." />
+  
+  <!-- Modern Typography: Space Grotesk (Headings), Inter (UI), JetBrains Mono (Tech/HUD) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/style.css?v=3" />
+  
+  <link rel="stylesheet" href="/static/style.css?v=5" />
 </head>
-<body class="workspace-body">
-  <div class="workspace-layout">
+<body class="terminal-body">
+  <div class="terminal-shell">
+    
     <!-- ====================================================================
-         LEFT SIDEBAR: Futuristic Command Navigation Panel
+         TOP HEADER: Futuristic Angular Cyber-Intelligence Bar
          ==================================================================== -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-top">
-        <div class="sidebar-brand">
-          <div class="brand-hexagon-icon">
-            <svg class="hex-svg-frame" viewBox="0 0 42 42" fill="none">
-              <polygon points="21,2 39,12 39,30 21,40 3,30 3,12" stroke="url(#hexGrad)" stroke-width="2" fill="rgba(10, 20, 36, 0.95)" />
-              <defs>
-                <linearGradient id="hexGrad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#00E5FF" />
-                  <stop offset="50%" stop-color="#3B82F6" />
-                  <stop offset="100%" stop-color="#8B5CF6" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <span class="brand-ai-text">AI</span>
-          </div>
-          <div class="brand-meta">
-            <div class="brand-name">RESEARCH AGENT</div>
-            <div class="brand-subtitle">AI Research Workspace</div>
-            <!-- Accessible test anchor for Tool-Using Research Agent -->
-            <span class="sr-only">Tool-Using Research Agent</span>
-          </div>
+    <header class="hud-header">
+      <!-- Left: Logo & Brand in Angular HUD Box (Sidebar Width Aligned) -->
+      <div class="header-brand-box">
+        <div class="brand-logo-icon">
+          <svg viewBox="0 0 32 32" class="brand-a-svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="logoPurpleGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#C084FC" />
+                <stop offset="60%" stop-color="#A855F7" />
+                <stop offset="100%" stop-color="#7E22CE" />
+              </linearGradient>
+            </defs>
+            <path d="M16 2L3 29H9.5L13.5 20.5H18.5L22.5 29H29L16 2Z" fill="url(#logoPurpleGrad)" />
+            <polygon points="16,8 14.2,16 17.8,16" fill="#070A12" />
+            <line x1="11.5" y1="20.5" x2="20.5" y2="20.5" stroke="#22D3EE" stroke-width="2" stroke-linecap="round" />
+          </svg>
         </div>
-
-        <nav class="sidebar-nav">
-          <a href="#home" class="nav-item active" id="nav-home">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="9 21 9 12 15 12 15 21" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span>Home</span>
-          </a>
-          <a href="#research" class="nav-item" id="nav-research">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <circle cx="11" cy="11" r="7" stroke-linecap="round" stroke-linejoin="round"/>
-              <line x1="20" y1="20" x2="16.2" y2="16.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span>Research</span>
-          </a>
-          <a href="#history" class="nav-item" id="nav-history">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <circle cx="12" cy="12" r="9" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="12 7 12 12 15.5 14" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span>History</span>
-          </a>
-        </nav>
+        <div class="brand-text-col">
+          <div class="brand-title">AgenticX</div>
+          <div class="brand-sub">RESEARCH AGENT</div>
+        </div>
       </div>
 
-      <div class="sidebar-bottom">
-        <!-- NEON CYBER WAVE CARD -->
-        <div class="sidebar-promo-box">
-          <div class="cyber-wave-canvas-container" aria-hidden="true">
-            <svg class="wave-bg-svg" viewBox="0 0 200 60" fill="none">
-              <path d="M0 30 C30 10, 60 50, 90 28 C120 12, 150 48, 180 25 C190 18, 195 32, 200 28" stroke="url(#waveCyanViolet)" stroke-width="1.8" fill="none" />
-              <path d="M0 40 C35 22, 70 52, 105 35 C140 20, 165 44, 200 32" stroke="rgba(59, 130, 246, 0.45)" stroke-width="1.2" fill="none" />
-              <path d="M0 48 C40 32, 80 56, 120 40 C155 26, 175 48, 200 38" stroke="rgba(139, 92, 246, 0.35)" stroke-width="1" fill="none" />
-              <defs>
-                <linearGradient id="waveCyanViolet" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stop-color="#00E5FF" />
-                  <stop offset="50%" stop-color="#3B82F6" />
-                  <stop offset="100%" stop-color="#8B5CF6" />
-                </linearGradient>
-              </defs>
-            </svg>
+      <!-- Right Meta Row -->
+      <div class="header-right-meta-row">
+        <!-- Center: Technical Capsule -->
+        <div class="header-center-pill">
+          <span class="hud-mono-text">TOOL-USING RESEARCH AGENT</span>
+          <span class="hud-sep">//</span>
+          <span class="hud-accent">GEMINI</span>
+          <span class="hud-plus">+</span>
+          <span class="hud-accent">TAVILY</span>
+          <span class="hud-plus">+</span>
+          <span class="hud-accent">FETCH_PAGE</span>
+        </div>
+
+        <!-- Top System Live Indicator -->
+        <div class="header-live-indicator" id="header-live-indicator">
+          <span class="live-pulse-dot" id="header-pulse-dot"></span>
+          <span class="live-pulse-text" id="header-live-text">SYSTEM LIVE</span>
+        </div>
+
+        <!-- Right: Telemetry Meta Segment with Slanted Stripes -->
+        <div class="header-telemetry-capsule">
+          <div class="telemetry-item">
+            <span class="telemetry-label">SESSION</span>
+            <span class="telemetry-value" id="hud-session-id">#NEW</span>
           </div>
-          <div class="promo-header-row">
-            <div class="promo-brain-icon-wrap">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#00E5FF" stroke-width="1.8">
-                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04z"/>
-                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04z"/>
-                <circle cx="8" cy="8" r="1" fill="#00E5FF"/>
-                <circle cx="16" cy="8" r="1" fill="#00E5FF"/>
-                <circle cx="6" cy="14" r="1" fill="#00E5FF"/>
-                <circle cx="18" cy="14" r="1" fill="#00E5FF"/>
+          <div class="telemetry-divider"></div>
+          <div class="telemetry-item">
+            <span class="telemetry-label">STEP</span>
+            <span class="telemetry-value" id="hud-step-counter">0/6</span>
+          </div>
+          <div class="telemetry-divider"></div>
+          <div class="telemetry-item">
+            <span class="telemetry-label">MODEL</span>
+            <span class="telemetry-value" id="hud-model-val">GEMINI-2.5-FLASH</span>
+          </div>
+          <div class="telemetry-stripes" aria-hidden="true">/////</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ====================================================================
+         MAIN THREE-COLUMN HUD GRID
+         ==================================================================== -->
+    <div class="hud-main-grid">
+      
+      <!-- ==================================================================
+           COLUMN 1: LEFT SIDEBAR (Starts directly with navigation)
+           ================================================================== -->
+      <aside class="hud-sidebar" id="sidebar">
+        <!-- Navigation Buttons -->
+        <nav class="sidebar-nav-container">
+          <button type="button" class="sidebar-nav-btn active" id="btn-new-research">
+            <svg class="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="7" stroke-linecap="round" stroke-linejoin="round" />
+              <line x1="20" y1="20" x2="16" y2="16" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>NEW RESEARCH</span>
+          </button>
+
+          <button type="button" class="sidebar-nav-btn" id="btn-history">
+            <svg class="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9" stroke-linecap="round" stroke-linejoin="round" />
+              <polyline points="12 7 12 12 15.5 14" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>HISTORY</span>
+          </button>
+
+          <button type="button" class="sidebar-nav-btn" id="btn-settings">
+            <svg class="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>SETTINGS</span>
+          </button>
+        </nav>
+
+        <!-- Decorative Live Data Stream Matrix -->
+        <div class="sidebar-matrix-panel">
+          <div class="matrix-data-stream-wrapper" id="matrix-data-stream" aria-hidden="true">
+            <div class="stream-column stream-col-1">
+              <div class="stream-track">
+                <span>0</span><span>8</span><span>4</span><span>1</span><span>9</span><span>2</span><span>7</span><span>3</span><span>5</span><span>6</span>
+                <span>2</span><span>0</span><span>9</span><span>4</span><span>1</span><span>8</span><span>3</span><span>7</span><span>6</span><span>5</span>
+                <span>0</span><span>8</span><span>4</span><span>1</span><span>9</span><span>2</span><span>7</span><span>3</span><span>5</span><span>6</span>
+                <span>2</span><span>0</span><span>9</span><span>4</span><span>1</span><span>8</span><span>3</span><span>7</span><span>6</span><span>5</span>
+              </div>
+            </div>
+            <div class="stream-column stream-col-2">
+              <div class="stream-track">
+                <span>7</span><span>1</span><span>5</span><span>9</span><span>0</span><span>4</span><span>8</span><span>2</span><span>6</span><span>3</span>
+                <span>4</span><span>9</span><span>2</span><span>7</span><span>0</span><span>5</span><span>1</span><span>8</span><span>3</span><span>6</span>
+                <span>7</span><span>1</span><span>5</span><span>9</span><span>0</span><span>4</span><span>8</span><span>2</span><span>6</span><span>3</span>
+                <span>4</span><span>9</span><span>2</span><span>7</span><span>0</span><span>5</span><span>1</span><span>8</span><span>3</span><span>6</span>
+              </div>
+            </div>
+            <div class="stream-column stream-col-3">
+              <div class="stream-track">
+                <span>3</span><span>6</span><span>0</span><span>8</span><span>2</span><span>9</span><span>1</span><span>5</span><span>7</span><span>4</span>
+                <span>8</span><span>3</span><span>6</span><span>1</span><span>9</span><span>0</span><span>4</span><span>7</span><span>2</span><span>5</span>
+                <span>3</span><span>6</span><span>0</span><span>8</span><span>2</span><span>9</span><span>1</span><span>5</span><span>7</span><span>4</span>
+                <span>8</span><span>3</span><span>6</span><span>1</span><span>9</span><span>0</span><span>4</span><span>7</span><span>2</span><span>5</span>
+              </div>
+            </div>
+            <div class="stream-column stream-col-4">
+              <div class="stream-track">
+                <span>9</span><span>4</span><span>7</span><span>2</span><span>6</span><span>0</span><span>8</span><span>3</span><span>1</span><span>5</span>
+                <span>1</span><span>7</span><span>4</span><span>9</span><span>3</span><span>8</span><span>2</span><span>0</span><span>5</span><span>6</span>
+                <span>9</span><span>4</span><span>7</span><span>2</span><span>6</span><span>0</span><span>8</span><span>3</span><span>1</span><span>5</span>
+                <span>1</span><span>7</span><span>4</span><span>9</span><span>3</span><span>8</span><span>2</span><span>0</span><span>5</span><span>6</span>
+              </div>
+            </div>
+            <div class="stream-column stream-col-5">
+              <div class="stream-track">
+                <span>5</span><span>2</span><span>8</span><span>0</span><span>4</span><span>7</span><span>3</span><span>9</span><span>6</span><span>1</span>
+                <span>6</span><span>5</span><span>1</span><span>3</span><span>8</span><span>2</span><span>9</span><span>4</span><span>0</span><span>7</span>
+                <span>5</span><span>2</span><span>8</span><span>0</span><span>4</span><span>7</span><span>3</span><span>9</span><span>6</span><span>1</span>
+                <span>6</span><span>5</span><span>1</span><span>3</span><span>8</span><span>2</span><span>9</span><span>4</span><span>0</span><span>7</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Decorative Intelligence Visualization Footer -->
+          <div class="matrix-hud-footer">
+            <div class="radar-target-reticle" aria-hidden="true">
+              <svg viewBox="0 0 32 32" class="reticle-svg">
+                <circle cx="16" cy="16" r="14" stroke="#A855F7" stroke-width="1.2" stroke-dasharray="3 2" fill="none" opacity="0.6"/>
+                <circle cx="16" cy="16" r="8" stroke="#22D3EE" stroke-width="1.2" fill="none" opacity="0.8"/>
+                <circle cx="16" cy="16" r="2.5" fill="#C084FC" />
+                <line x1="16" y1="0" x2="16" y2="7" stroke="#A855F7" stroke-width="1.2" />
+                <line x1="16" y1="25" x2="16" y2="32" stroke="#A855F7" stroke-width="1.2" />
+                <line x1="0" y1="16" x2="7" y2="16" stroke="#A855F7" stroke-width="1.2" />
+                <line x1="25" y1="16" x2="32" y2="16" stroke="#A855F7" stroke-width="1.2" />
               </svg>
             </div>
-            <div class="promo-text">
+            <div class="matrix-brand-motto">
               <strong>SMARTER RESEARCH.</strong>
               <span>BETTER ANSWERS.</span>
             </div>
           </div>
         </div>
 
-        <!-- SYSTEM STATUS HUD -->
-        <div class="sidebar-system-telemetry">
-          <div class="telemetry-header">SYSTEM STATUS</div>
-          <div class="telemetry-row">
-            <span class="telemetry-dot green"></span>
-            <span>ENGINE ONLINE</span>
+        <!-- System Status Panel -->
+        <div class="hud-box system-status-box">
+          <div class="hud-box-header">
+            <span class="hud-box-title">SYSTEM STATUS</span>
           </div>
-          <div class="telemetry-row">
-            <span class="telemetry-dot green"></span>
-            <span>SECURE MODE</span>
-          </div>
-          <div class="telemetry-row">
-            <span class="telemetry-dot green"></span>
-            <span>TRACE ENABLED</span>
-          </div>
-          <div class="telemetry-row">
-            <span class="telemetry-dot green"></span>
-            <span>SOURCE VALIDATION</span>
-          </div>
-          <div class="telemetry-footer-row">
-            <div class="sys-version-group">
-              <span class="sys-workspace-tag">AI RESEARCH WORKSPACE</span>
-              <span class="sys-version-tag">SYS v1.0.0</span>
+          <div class="status-table-container">
+            <div class="status-table-header-row">
+              <span>COMPONENT</span>
+              <span>STATUS</span>
             </div>
-            <svg class="ecg-pulse-svg" viewBox="0 0 60 16" fill="none">
-              <polyline points="0,8 18,8 22,2 26,14 30,5 34,10 38,8 60,8" stroke="#00E5FF" stroke-width="1.4" fill="none" />
-            </svg>
+            <div class="status-table-row">
+              <span class="col-component">PROVIDER</span>
+              <span class="col-status"><span class="status-dot-cyan"></span> Gemini</span>
+            </div>
+            <div class="status-table-row">
+              <span class="col-component">SEARCH</span>
+              <span class="col-status"><span class="status-dot-cyan"></span> Tavily</span>
+            </div>
+            <div class="status-table-row">
+              <span class="col-component">TOOLS</span>
+              <span class="col-status"><span class="status-dot-cyan"></span> 2 ACTIVE</span>
+            </div>
+            <div class="status-table-row">
+              <span class="col-component">STEP LIMIT</span>
+              <span class="col-status"><span class="status-dot-cyan"></span> 6</span>
+            </div>
+            <div class="status-table-row">
+              <span class="col-component">TRACEABILITY</span>
+              <span class="col-status"><span class="status-dot-cyan"></span> VERIFIED</span>
+            </div>
+            <div class="status-table-row">
+              <span class="col-component">DATABASE</span>
+              <span class="col-status"><span class="status-dot-cyan"></span> ONLINE</span>
+            </div>
           </div>
         </div>
-      </div>
-    </aside>
-
-    <!-- ====================================================================
-         MAIN CONTENT AREA
-         ==================================================================== -->
-    <div class="main-content-wrapper">
-      <!-- TOP STATUS BAR: Exact Match with Reference HUD -->
-      <header class="top-header">
-        <div class="top-header-left">
-          <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation">
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          </button>
-          <div class="session-hud-badge">
-            <span class="session-label">SESSION</span>
-            <span class="session-sep">//</span>
-            <span class="session-id">RA-2048</span>
-          </div>
-        </div>
-
-        <div class="top-header-right">
-          <div class="technical-system-hud">
-            <span class="status-pill-item online-pill">
-              <span class="status-dot-green"></span>
-              <span>SYSTEM ONLINE</span>
-            </span>
-            <span class="status-sep">|</span>
-            <span class="status-pill-item" id="top-step-counter">STEP // 02 OF 06</span>
-            <span class="status-sep">|</span>
-            <span class="status-pill-item">TOOLS // 02</span>
-            <span class="status-sep">|</span>
-            <span class="status-pill-item" id="top-sources-counter">SOURCES // 04</span>
-            <span class="status-sep">|</span>
-            <span class="verified-hud-badge">
-              <span class="check-icon">&#10003;</span>
-              <span>VERIFIED</span>
-            </span>
-            <span class="status-sep">|</span>
-            <span class="status-pill-item agent-pill">
-              <span class="agent-icon">&#128100;</span>
-              <span>AGENT-01</span>
-            </span>
-          </div>
-        </div>
-      </header>
+      </aside>
 
       <!-- ==================================================================
-           VIEW A: RESEARCH WORKSPACE
+           MAIN WORKSPACE
            ================================================================== -->
-      <main id="research-view" class="view-section">
-        <!-- HERO SECTION: Cyber Research Command Center -->
-        <section class="hero-section-wrapper">
-          <div class="hero-left-content">
-            <span class="hero-tag">&gt; AI RESEARCH WORKSPACE</span>
-            <h1 class="hero-title">Research anything.<br />Build answers from <span class="gradient-text">evidence.</span></h1>
-            <p class="hero-subtitle">Search, verify and synthesize information with traceable sources.</p>
+      <main class="hud-center-workspace">
+        
+        <!-- TOP SECTION: Hero + Pipeline on Left, Global Scan on Right -->
+        <div class="workspace-top-row">
+          
+          <!-- LEFT SUB-COLUMN: AI RESEARCH WORKSPACE + RESEARCH PIPELINE -->
+          <div class="workspace-top-left">
+            <!-- TOP: AI RESEARCH WORKSPACE (Hero + Command Terminal) -->
+            <section class="hud-panel hero-terminal-panel">
+              <div class="panel-cutout-tab">
+                <span>AI RESEARCH WORKSPACE</span>
+              </div>
 
-            <!-- COMMAND SEARCH BOX -->
-            <div class="search-command-container">
-              <form id="research-form" class="command-bar-box">
-                <div class="command-spark-wrap">
-                  <span class="sparkle-diamond">&#10022;</span>
-                  <span class="terminal-caret">&gt;</span>
+              <div class="hero-content">
+                <!-- Left: Main Headline -->
+                <div class="hero-text-side">
+                  <h1 class="hero-display-heading">
+                    Research anything.<br />
+                    Build answers from<br />
+                    <span class="neon-purple-glow">evidence.</span>
+                  </h1>
+                  
+                  <!-- Try suggestions -->
+                  <div class="hero-try-chips">
+                    <span class="try-label">TRY:</span>
+                    <button type="button" class="quick-chip-btn" data-query="What are the environmental effects of electric vehicles?">EV Impact</button>
+                    <button type="button" class="quick-chip-btn" data-query="What are the main applications of generative AI in healthcare?">GenAI in Healthcare</button>
+                    <button type="button" class="quick-chip-btn" data-query="What is the difference between supervised and unsupervised machine learning?">ML Paradigms</button>
+                  </div>
                 </div>
-                <input
-                  type="text"
-                  id="question-input"
-                  class="search-field-input"
-                  placeholder="Ask a research question..."
-                  required
-                  autocomplete="off"
-                />
-                <!-- CLEAR BUTTON [X Clear] -->
-                <button type="button" id="clear-btn" class="search-clear-btn hidden" aria-label="Clear input">
-                  <span class="clear-x-icon">&times;</span>
-                  <span>Clear</span>
-                </button>
-                <!-- SEARCH ACTION BUTTON -->
-                <button type="submit" id="submit-btn" class="search-action-btn">
-                  <span>SEARCH &rarr;</span>
-                </button>
-              </form>
-            </div>
 
-            <!-- TRY SHORTCUTS -->
-            <div class="examples-row-strip">
-              <span class="examples-lead-label">TRY:</span>
-              <button type="button" class="example-chip-pill" data-query="What are the main applications of generative AI in healthcare?">
-                <span class="chip-chevron">&gt;</span>
-                <span>GenAI in Healthcare</span>
-              </button>
-              <button type="button" class="example-chip-pill" data-query="What are the environmental effects of electric vehicles?">
-                <span class="chip-chevron">&gt;</span>
-                <span>Electric Vehicle Impact</span>
-              </button>
-              <button type="button" class="example-chip-pill" data-query="What is the difference between supervised and unsupervised machine learning?">
-                <span class="chip-chevron">&gt;</span>
-                <span>Supervised vs Unsupervised ML</span>
-              </button>
-            </div>
+                <!-- Right: Futuristic Search Terminal with Fixed Layout & Stable Alignment -->
+                <div class="hero-search-side">
+                  <form id="research-form" class="search-form terminal-search-frame">
+                    <div class="search-input-wrapper search-input-inner">
+                      <input
+                        type="text"
+                        id="question-input"
+                        class="search-input cyber-search-input"
+                        placeholder="Search for anything..."
+                        autocomplete="off"
+                        required
+                      />
+                      <button type="button" id="clear-btn" class="search-clear-cross hidden" aria-label="Clear input">
+                        &times;
+                      </button>
+                    </div>
+                    <button type="submit" id="submit-btn" class="search-button cyber-search-submit-btn">
+                      <svg class="search-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="7" stroke-linecap="round" stroke-linejoin="round" />
+                        <line x1="20" y1="20" x2="16" y2="16" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      <span id="submit-btn-text">SEARCH</span>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </section>
+
+            <!-- MIDDLE: RESEARCH PIPELINE (4 Equal Stages) -->
+            <section class="hud-panel pipeline-hud-panel" id="pipeline-section">
+              <div class="hud-box-header">
+                <span class="hud-box-title">RESEARCH PIPELINE</span>
+              </div>
+
+              <div class="pipeline-cards-row pipeline-grid">
+                <!-- 01 SEARCH -->
+                <div class="pipeline-step-card pending" id="pipe-card-1">
+                  <div class="pipe-card-header">
+                    <span class="pipe-step-title">01 SEARCH</span>
+                    <span class="pipe-status-icon-circle ring-circle" id="pipe-icon-1"></span>
+                  </div>
+                  <div class="pipe-card-desc" id="pipe-desc-1">Waiting</div>
+                  <div class="pipe-progress-line"><div class="pipe-progress-fill" style="width: 0%;"></div></div>
+                </div>
+
+                <!-- 02 VERIFY -->
+                <div class="pipeline-step-card pending" id="pipe-card-2">
+                  <div class="pipe-card-header">
+                    <span class="pipe-step-title">02 VERIFY</span>
+                    <span class="pipe-status-icon-circle ring-circle" id="pipe-icon-2"></span>
+                  </div>
+                  <div class="pipe-card-desc" id="pipe-desc-2">Waiting</div>
+                  <div class="pipe-progress-line"><div class="pipe-progress-fill" style="width: 0%;"></div></div>
+                </div>
+
+                <!-- 03 ANALYZE -->
+                <div class="pipeline-step-card pending" id="pipe-card-3">
+                  <div class="pipe-card-header">
+                    <span class="pipe-step-title">03 ANALYZE</span>
+                    <span class="pipe-status-icon-circle ring-circle" id="pipe-icon-3"></span>
+                  </div>
+                  <div class="pipe-card-desc" id="pipe-desc-3">Waiting</div>
+                  <div class="pipe-progress-line"><div class="pipe-progress-fill" style="width: 0%;"></div></div>
+                </div>
+
+                <!-- 04 SYNTHESIZE -->
+                <div class="pipeline-step-card pending" id="pipe-card-4">
+                  <div class="pipe-card-header">
+                    <span class="pipe-step-title">04 SYNTHESIZE</span>
+                    <span class="pipe-status-icon-circle ring-circle" id="pipe-icon-4"></span>
+                  </div>
+                  <div class="pipe-card-desc" id="pipe-desc-4">Waiting</div>
+                  <div class="pipe-progress-line"><div class="pipe-progress-fill" style="width: 0%;"></div></div>
+                </div>
+              </div>
+            </section>
           </div>
 
-          <!-- 3D HOLOGRAPHIC INTELLIGENCE VISUALIZATION -->
-          <div class="hero-illustration-box" aria-hidden="true" id="hologram-visual-box">
-            <div class="hologram-container">
-              <svg class="hologram-svg" viewBox="0 0 420 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- RIGHT SUB-COLUMN: GLOBAL SCAN (Holographic Animated Globe, Top Aligned with Hero, 330px width) -->
+          <section class="hud-panel intelligence-hud-panel" id="global-scan-panel">
+            <div class="hud-box-header">
+              <span class="hud-box-title">GLOBAL SCAN</span>
+              <span class="scan-live-badge" id="global-scan-status-badge"><span class="live-dot-pulse"></span> LIVE &bull; READY</span>
+            </div>
+
+            <div class="intel-sub-tags-bar">
+              <span class="intel-tag-left">SOURCE NETWORK // READY</span>
+              <span class="intel-tag-mid">INDEXING // STANDBY</span>
+              <span class="intel-tag-right">SIGNAL // LIVE</span>
+            </div>
+
+            <!-- Holographic Globe Visualization (Animated SVG + CSS) -->
+            <div class="globe-visualization-frame" id="hologram-frame">
+              <svg class="hologram-globe-svg" viewBox="0 0 340 240" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                  <!-- High-Tech Cyber Core Gradient -->
-                  <radialGradient id="cyberSphereGrad" cx="38%" cy="32%" r="68%">
-                    <stop offset="0%" stop-color="#00E5FF" stop-opacity="0.8" />
-                    <stop offset="22%" stop-color="#168CFF" stop-opacity="0.9" />
-                    <stop offset="55%" stop-color="#0B1C38" stop-opacity="0.95" />
-                    <stop offset="85%" stop-color="#050B18" stop-opacity="0.98" />
-                    <stop offset="100%" stop-color="#020712" stop-opacity="1" />
+                  <radialGradient id="globeAuraGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#C084FC" stop-opacity="0.38" />
+                    <stop offset="45%" stop-color="#A855F7" stop-opacity="0.20" />
+                    <stop offset="80%" stop-color="#7E22CE" stop-opacity="0.06" />
+                    <stop offset="100%" stop-color="#070A12" stop-opacity="0" />
                   </radialGradient>
-
-                  <!-- Atmosphere Aura Glow -->
-                  <radialGradient id="cyberAtmosphereGrad" cx="50%" cy="50%" r="50%">
-                    <stop offset="60%" stop-color="#00E5FF" stop-opacity="0" />
-                    <stop offset="88%" stop-color="#00E5FF" stop-opacity="0.35" />
-                    <stop offset="100%" stop-color="#168CFF" stop-opacity="0" />
-                  </radialGradient>
-
-                  <linearGradient id="ringOrbit1" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stop-color="#00E5FF" stop-opacity="0.95" />
-                    <stop offset="50%" stop-color="#168CFF" stop-opacity="0.3" />
-                    <stop offset="100%" stop-color="#7C3AED" stop-opacity="0.85" />
+                  
+                  <linearGradient id="orbitGrad1" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#C084FC" stop-opacity="0.95" />
+                    <stop offset="50%" stop-color="#A855F7" stop-opacity="0.4" />
+                    <stop offset="100%" stop-color="#22D3EE" stop-opacity="0.85" />
                   </linearGradient>
 
-                  <linearGradient id="ringOrbit2" x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient id="orbitGrad2" x1="1" y1="0" x2="0" y2="1">
                     <stop offset="0%" stop-color="#A855F7" stop-opacity="0.85" />
-                    <stop offset="45%" stop-color="#00E5FF" stop-opacity="0.4" />
-                    <stop offset="100%" stop-color="#168CFF" stop-opacity="0.8" />
+                    <stop offset="50%" stop-color="#7E22CE" stop-opacity="0.25" />
+                    <stop offset="100%" stop-color="#C084FC" stop-opacity="0.95" />
                   </linearGradient>
 
-                  <linearGradient id="ringOrbit3" x1="1" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#00E5FF" stop-opacity="0.75" />
-                    <stop offset="60%" stop-color="#7C3AED" stop-opacity="0.25" />
-                    <stop offset="100%" stop-color="#00F5A0" stop-opacity="0.8" />
+                  <linearGradient id="scanBeamCyan" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#22D3EE" stop-opacity="0" />
+                    <stop offset="20%" stop-color="#22D3EE" stop-opacity="0.45" />
+                    <stop offset="50%" stop-color="#67E8F9" stop-opacity="0.95" />
+                    <stop offset="80%" stop-color="#22D3EE" stop-opacity="0.45" />
+                    <stop offset="100%" stop-color="#22D3EE" stop-opacity="0" />
                   </linearGradient>
 
-                  <linearGradient id="scanBeamGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#00E5FF" stop-opacity="0" />
-                    <stop offset="50%" stop-color="#00E5FF" stop-opacity="0.9" />
-                    <stop offset="100%" stop-color="#00E5FF" stop-opacity="0" />
-                  </linearGradient>
-
-                  <filter id="cyberGlobeGlow" x="-30%" y="-30%" width="160%" height="160%">
-                    <feGaussianBlur stdDeviation="20" result="blur" />
+                  <filter id="cyanBeamGlow" x="-30%" y="-100%" width="160%" height="300%">
+                    <feGaussianBlur stdDeviation="3.2" result="blur" />
                     <feComposite in="SourceGraphic" in2="blur" operator="over" />
                   </filter>
-                  <filter id="cyberNodeGlow" x="-60%" y="-60%" width="220%" height="220%">
+                  
+                  <filter id="purpleGlowFilter" x="-20%" y="-20%" width="140%" height="140%">
                     <feGaussianBlur stdDeviation="5" result="blur" />
                     <feComposite in="SourceGraphic" in2="blur" operator="over" />
                   </filter>
                 </defs>
 
-                <!-- Ambient Outer Glow Aura -->
-                <circle cx="210" cy="155" r="115" fill="rgba(0, 229, 255, 0.08)" filter="url(#cyberGlobeGlow)" />
-                <circle cx="210" cy="155" r="88" fill="rgba(22, 140, 255, 0.16)" filter="url(#cyberGlobeGlow)" />
+                <!-- Central Aura Glow -->
+                <circle cx="170" cy="120" r="95" fill="url(#globeAuraGrad)" />
+                
+                <!-- Expanding Pulse Waves From Center -->
+                <circle cx="170" cy="120" r="16" class="globe-pulse-wave wave-1" fill="none" stroke="rgba(34, 211, 238, 0.65)" stroke-width="1.2" />
+                <circle cx="170" cy="120" r="16" class="globe-pulse-wave wave-2" fill="none" stroke="rgba(192, 132, 252, 0.55)" stroke-width="1.2" />
+                <circle cx="170" cy="120" r="16" class="globe-pulse-wave wave-3" fill="none" stroke="rgba(34, 211, 238, 0.45)" stroke-width="1" />
 
-                <!-- Orbit Ring 1 (Tilted Diagonal Orbit) -->
-                <g class="orbit-group-1">
-                  <ellipse cx="210" cy="155" rx="146" ry="54" stroke="url(#ringOrbit1)" stroke-width="1.4" stroke-dasharray="5 2 10 3" transform="rotate(-26 210 155)" />
-                  <circle cx="82" cy="208" r="3.5" fill="#00E5FF" filter="url(#cyberNodeGlow)" />
-                  <circle cx="338" cy="102" r="3" fill="#A855F7" filter="url(#cyberNodeGlow)" />
-                  <circle cx="210" cy="101" r="2.2" fill="#00F5A0" />
+                <!-- Tilted Orbit Ring 1 (Animated Counter-Clockwise) -->
+                <g class="orbit-group-tilted-1">
+                  <ellipse cx="170" cy="120" rx="122" ry="42" stroke="url(#orbitGrad1)" stroke-width="1.3" stroke-dasharray="6 3" transform="rotate(-24 170 120)" />
+                  <circle cx="68" cy="162" r="3" fill="#22D3EE" filter="url(#purpleGlowFilter)" class="pulsing-orbit-node" />
+                  <circle cx="272" cy="78" r="3" fill="#C084FC" filter="url(#purpleGlowFilter)" class="pulsing-orbit-node" />
                 </g>
 
-                <!-- Orbit Ring 2 (Counter-tilted Orbit) -->
-                <g class="orbit-group-2">
-                  <ellipse cx="210" cy="155" rx="136" ry="46" stroke="url(#ringOrbit2)" stroke-width="1.3" stroke-dasharray="8 4" transform="rotate(36 210 155)" />
-                  <circle cx="304" cy="214" r="3" fill="#00E5FF" filter="url(#cyberNodeGlow)" />
-                  <circle cx="118" cy="96" r="2.5" fill="#168CFF" opacity="0.9" />
+                <!-- Tilted Orbit Ring 2 (Animated Clockwise) -->
+                <g class="orbit-group-tilted-2">
+                  <ellipse cx="170" cy="120" rx="114" ry="38" stroke="url(#orbitGrad2)" stroke-width="1.2" stroke-dasharray="4 4" transform="rotate(32 170 120)" />
+                  <circle cx="248" cy="168" r="2.5" fill="#C084FC" class="pulsing-orbit-node" />
+                  <circle cx="92" cy="72" r="2.5" fill="#22D3EE" class="pulsing-orbit-node" />
                 </g>
 
-                <!-- Orbit Ring 3 (Wide Tilted Equator Orbit) -->
-                <g class="orbit-group-3">
-                  <ellipse cx="210" cy="155" rx="154" ry="38" stroke="url(#ringOrbit3)" stroke-width="1.1" transform="rotate(-6 210 155)" />
-                  <circle cx="356" cy="142" r="2.5" fill="#00E5FF" filter="url(#cyberNodeGlow)" />
-                  <circle cx="64" cy="168" r="2.5" fill="#7C3AED" />
+                <!-- Wireframe Holographic Sphere with Slow Rotation -->
+                <g class="sphere-wireframe" id="globe-sphere-mesh">
+                  <!-- Base Sphere Outer Rim -->
+                  <circle cx="170" cy="120" r="62" stroke="#A855F7" stroke-width="1.5" fill="rgba(11, 15, 24, 0.6)" filter="url(#purpleGlowFilter)" />
+                  
+                  <!-- Rotating Longitude Curvatures -->
+                  <g class="rotating-longitude-group">
+                    <ellipse cx="170" cy="120" rx="20" ry="62" stroke="rgba(192, 132, 252, 0.6)" stroke-width="0.8" fill="none" />
+                    <ellipse cx="170" cy="120" rx="42" ry="62" stroke="rgba(168, 85, 247, 0.5)" stroke-width="0.7" fill="none" />
+                    <line x1="170" y1="58" x2="170" y2="182" stroke="rgba(192, 132, 252, 0.7)" stroke-width="0.9" />
+                  </g>
+
+                  <!-- Horizontal Latitudes -->
+                  <ellipse cx="170" cy="120" rx="62" ry="18" stroke="rgba(192, 132, 252, 0.55)" stroke-width="0.8" fill="none" />
+                  <ellipse cx="170" cy="100" rx="56" ry="14" stroke="rgba(168, 85, 247, 0.45)" stroke-width="0.7" fill="none" />
+                  <ellipse cx="170" cy="140" rx="56" ry="14" stroke="rgba(168, 85, 247, 0.45)" stroke-width="0.7" fill="none" />
+                  <ellipse cx="170" cy="80" rx="42" ry="10" stroke="rgba(168, 85, 247, 0.35)" stroke-width="0.6" fill="none" />
+                  <ellipse cx="170" cy="160" rx="42" ry="10" stroke="rgba(168, 85, 247, 0.35)" stroke-width="0.6" fill="none" />
+
+                  <!-- Stylized Continents Contours with Subtle Drift -->
+                  <g class="continent-drift-group">
+                    <path d="M152,86 Q160,88 165,94 Q168,102 160,110 Q152,114 150,122 Q154,128 158,136 Q155,144 148,150 Q144,142 142,130 Q144,118 146,108 Z" fill="rgba(168, 85, 247, 0.16)" stroke="#C084FC" stroke-width="0.8" />
+                    <path d="M176,90 Q184,88 190,94 Q196,102 192,108 Q188,114 184,112 Q180,120 184,128 Q182,138 178,134 Q174,124 176,112 Z" fill="rgba(34, 211, 238, 0.16)" stroke="#22D3EE" stroke-width="0.8" />
+                  </g>
+
+                  <!-- Network Coordinate Nodes (Appearing / Disappearing Subtle Pulse) -->
+                  <circle cx="160" cy="110" r="2.8" fill="#22D3EE" filter="url(#purpleGlowFilter)" class="geo-node geo-node-1" />
+                  <circle cx="184" cy="116" r="2.5" fill="#C084FC" filter="url(#purpleGlowFilter)" class="geo-node geo-node-2" />
+                  <circle cx="172" cy="138" r="2.5" fill="#A855F7" class="geo-node geo-node-3" />
+                  <circle cx="148" cy="126" r="2.2" fill="#22D3EE" class="geo-node geo-node-4" />
+                  <circle cx="192" cy="132" r="2" fill="#C084FC" class="geo-node geo-node-5" />
+                  
+                  <!-- Inter-node vector lines -->
+                  <polyline points="148,126 160,110 184,116 192,132 172,138 148,126" stroke="rgba(192, 132, 252, 0.6)" stroke-width="0.8" fill="none" class="vector-connection-line" />
                 </g>
 
-                <!-- Central 3D Digital Holographic Globe -->
-                <g class="globe-sphere-group" id="rotating-globe-group">
-                  <!-- Base Shaded Sphere -->
-                  <circle cx="210" cy="155" r="68" fill="url(#cyberSphereGrad)" stroke="rgba(0, 229, 255, 0.75)" stroke-width="1.4" />
-                  <circle cx="210" cy="155" r="70" fill="url(#cyberAtmosphereGrad)" />
-
-                  <!-- Globe Latitude Lines -->
-                  <ellipse cx="210" cy="155" rx="68" ry="20" stroke="rgba(0, 229, 255, 0.45)" stroke-width="0.8" fill="none" />
-                  <ellipse cx="210" cy="132" rx="62" ry="16" stroke="rgba(0, 229, 255, 0.35)" stroke-width="0.7" fill="none" />
-                  <ellipse cx="210" cy="178" rx="62" ry="16" stroke="rgba(0, 229, 255, 0.35)" stroke-width="0.7" fill="none" />
-                  <ellipse cx="210" cy="112" rx="48" ry="12" stroke="rgba(22, 140, 255, 0.32)" stroke-width="0.6" fill="none" />
-                  <ellipse cx="210" cy="198" rx="48" ry="12" stroke="rgba(22, 140, 255, 0.32)" stroke-width="0.6" fill="none" />
-
-                  <!-- Globe Longitude Curves -->
-                  <ellipse cx="210" cy="155" rx="22" ry="68" stroke="rgba(0, 229, 255, 0.45)" stroke-width="0.8" fill="none" />
-                  <ellipse cx="210" cy="155" rx="46" ry="68" stroke="rgba(0, 229, 255, 0.35)" stroke-width="0.7" fill="none" />
-                  <line x1="210" y1="87" x2="210" y2="223" stroke="rgba(0, 229, 255, 0.55)" stroke-width="0.9" />
-
-                  <!-- Glowing Continent Outlines (Americas, Europe/Africa contours) -->
-                  <path d="M188,110 Q198,112 205,118 Q208,126 198,136 Q190,140 188,148 Q192,154 196,164 Q194,174 186,180 Q182,185 186,192 Q182,184 176,172 Q174,158 178,146 Q184,138 180,128 Z" fill="rgba(0, 229, 255, 0.12)" stroke="#00E5FF" stroke-width="0.9" />
-                  <path d="M216,115 Q226,114 235,120 Q242,128 238,136 Q234,142 228,140 Q222,148 226,158 Q234,168 230,178 Q222,184 218,172 Q214,158 218,142 Q214,130 216,115 Z" fill="rgba(22, 140, 255, 0.14)" stroke="#168CFF" stroke-width="0.9" />
-
-                  <!-- Network Data Nodes & Surface Connections -->
-                  <circle cx="196" cy="138" r="2.8" fill="#00E5FF" filter="url(#cyberNodeGlow)" />
-                  <circle cx="228" cy="144" r="2.8" fill="#00F5A0" filter="url(#cyberNodeGlow)" />
-                  <circle cx="214" cy="172" r="2.4" fill="#168CFF" />
-                  <circle cx="180" cy="158" r="2.4" fill="#00E5FF" />
-                  <circle cx="240" cy="162" r="2.4" fill="#A855F7" />
-                  <circle cx="202" cy="186" r="2" fill="#00E5FF" />
-                  <circle cx="220" cy="124" r="2" fill="#00F5A0" />
-                  <polyline points="196,138 220,124 228,144 240,162 214,172 202,186 180,158 196,138" stroke="rgba(0, 229, 255, 0.55)" stroke-width="0.9" fill="none" />
+                <!-- Sweeping Scanning Beam with Cyan/Electric-Blue Glow -->
+                <g class="globe-scan-beam-group">
+                  <line x1="90" y1="120" x2="250" y2="120" stroke="url(#scanBeamCyan)" stroke-width="2.6" filter="url(#cyanBeamGlow)" class="globe-scan-beam" />
                 </g>
-
-                <!-- Thin Sweeping Scanning Line across the globe -->
-                <line x1="134" y1="155" x2="286" y2="155" stroke="url(#scanBeamGrad)" stroke-width="2.2" class="scan-line-beam" />
-
-                <!-- Thin Circuit Traces connecting Globe to HUD Cards -->
-                <line x1="152" y1="118" x2="108" y2="58" stroke="rgba(0, 229, 255, 0.35)" stroke-dasharray="3 3" stroke-width="1" />
-                <line x1="156" y1="192" x2="98" y2="238" stroke="rgba(0, 229, 255, 0.35)" stroke-dasharray="3 3" stroke-width="1" />
-                <line x1="268" y1="118" x2="330" y2="58" stroke="rgba(22, 140, 255, 0.4)" stroke-dasharray="3 3" stroke-width="1" />
-                <line x1="266" y1="192" x2="332" y2="248" stroke="rgba(0, 229, 255, 0.35)" stroke-dasharray="3 3" stroke-width="1" />
-
-                <!-- HUD CARD 1: LIVE INTELLIGENCE / WEB ANALYSIS ACTIVE (Top-Left) -->
-                <g class="hud-box-group hud-card-1" transform="translate(18, 26)">
-                  <rect width="96" height="44" rx="7" fill="#0A1424" stroke="#18304A" stroke-width="1.3" />
-                  <circle cx="14" cy="18" r="3.5" fill="#00F5A0" filter="url(#cyberNodeGlow)" />
-                  <text x="22" y="21" font-family="'JetBrains Mono', monospace" font-size="7.2" font-weight="700" fill="#00E5FF" letter-spacing="0.6">LIVE INTELLIGENCE</text>
-                  <text x="12" y="34" font-family="'JetBrains Mono', monospace" font-size="6.5" font-weight="600" fill="#94A3B8" letter-spacing="0.5">WEB ANALYSIS ACTIVE</text>
-                </g>
-
-                <!-- Floating Icon Badge 1: Document (Top-Left Mid) -->
-                <g class="hud-icon-badge" transform="translate(56, 102)">
-                  <rect width="32" height="34" rx="6" fill="#0A1424" stroke="#18304A" stroke-width="1.2" />
-                  <rect x="9" y="8" width="14" height="18" rx="2" fill="none" stroke="#7C3AED" stroke-width="1.3" />
-                  <line x1="12" y1="13" x2="20" y2="13" stroke="#7C3AED" stroke-width="1.1" />
-                  <line x1="12" y1="17" x2="20" y2="17" stroke="#7C3AED" stroke-width="1.1" />
-                  <line x1="12" y1="21" x2="17" y2="21" stroke="#7C3AED" stroke-width="1.1" />
-                </g>
-
-                <!-- Floating Icon Badge 2: Database Cylinder (Bottom-Left) -->
-                <g class="hud-icon-badge" transform="translate(50, 168)">
-                  <rect width="32" height="34" rx="6" fill="#0A1424" stroke="#18304A" stroke-width="1.2" />
-                  <ellipse cx="16" cy="11" rx="8" ry="3" stroke="#00E5FF" stroke-width="1.3" fill="none" />
-                  <path d="M8,11 v6 c0,1.8 3.5,3 8,3 s8,-1.2 8,-3 v-6" stroke="#00E5FF" stroke-width="1.3" fill="none" />
-                  <path d="M8,17 v6 c0,1.8 3.5,3 8,3 s8,-1.2 8,-3 v-6" stroke="#00E5FF" stroke-width="1.3" fill="none" />
-                </g>
-
-                <!-- HUD CARD 2: SOURCE NETWORK / 04 SOURCES FOUND (Top-Right) -->
-                <g class="hud-box-group hud-card-2" transform="translate(310, 26)">
-                  <rect width="98" height="44" rx="7" fill="#0A1424" stroke="#18304A" stroke-width="1.3" />
-                  <rect x="10" y="14" width="7" height="7" rx="1.5" fill="none" stroke="#00E5FF" stroke-width="1.3" />
-                  <circle cx="13.5" cy="17.5" r="1.5" fill="#00E5FF" />
-                  <text x="21" y="21" font-family="'JetBrains Mono', monospace" font-size="7.2" font-weight="700" fill="#CBD5E1" letter-spacing="0.6">SOURCE NETWORK</text>
-                  <text x="12" y="34" font-family="'JetBrains Mono', monospace" font-size="6.5" font-weight="600" fill="#00E5FF" letter-spacing="0.5" id="globe-sources-val">04 SOURCES FOUND</text>
-                </g>
-
-                <!-- Floating Icon Badge 3: Search (Top-Right Mid) -->
-                <g class="hud-icon-badge" transform="translate(332, 92)">
-                  <rect width="32" height="34" rx="6" fill="#0A1424" stroke="#18304A" stroke-width="1.2" />
-                  <circle cx="14" cy="14" r="5.5" stroke="#00E5FF" stroke-width="1.4" fill="none" />
-                  <line x1="18" y1="18" x2="23" y2="23" stroke="#00E5FF" stroke-width="1.5" stroke-linecap="round" />
-                </g>
-
-                <!-- HUD CARD 3: VERIFIED DATA / 04 / 04 VERIFIED (Mid-Right) -->
-                <g class="hud-box-group hud-card-3" transform="translate(312, 142)">
-                  <rect width="96" height="44" rx="7" fill="#0A1424" stroke="rgba(0, 245, 160, 0.4)" stroke-width="1.3" />
-                  <path d="M11 20 L14 23 L21 16" stroke="#00F5A0" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-                  <text x="25" y="21" font-family="'JetBrains Mono', monospace" font-size="7.2" font-weight="700" fill="#00F5A0" letter-spacing="0.6">VERIFIED DATA</text>
-                  <text x="12" y="34" font-family="'JetBrains Mono', monospace" font-size="6.5" font-weight="600" fill="#00F5A0" letter-spacing="0.5" id="globe-verified-val">+ 04 / 04 VERIFIED</text>
-                </g>
-
-                <!-- Floating Icon Badge 4: Clipboard/Data Card (Mid-Right Edge) -->
-                <g class="hud-icon-badge" transform="translate(338, 198)">
-                  <rect width="30" height="32" rx="5" fill="#0A1424" stroke="#18304A" stroke-width="1.2" />
-                  <rect x="8" y="7" width="14" height="18" rx="2" fill="none" stroke="#168CFF" stroke-width="1.2" />
-                  <line x1="11" y1="12" x2="19" y2="12" stroke="#00E5FF" stroke-width="1.1" />
-                  <line x1="11" y1="16" x2="19" y2="16" stroke="#00E5FF" stroke-width="1.1" />
-                </g>
-
-                <!-- HUD CARD 4: AI SYNTHESIS / PROCESSING (Bottom-Right) -->
-                <g class="hud-box-group hud-card-4" transform="translate(308, 246)">
-                  <rect width="98" height="44" rx="7" fill="#0A1424" stroke="rgba(124, 58, 237, 0.4)" stroke-width="1.3" />
-                  <!-- Chip Icon -->
-                  <rect x="10" y="16" width="10" height="10" rx="2" fill="none" stroke="#A855F7" stroke-width="1.3" />
-                  <line x1="13" y1="13" x2="13" y2="16" stroke="#A855F7" stroke-width="1" />
-                  <line x1="17" y1="13" x2="17" y2="16" stroke="#A855F7" stroke-width="1" />
-                  <line x1="13" y1="26" x2="13" y2="29" stroke="#A855F7" stroke-width="1" />
-                  <line x1="17" y1="26" x2="17" y2="29" stroke="#A855F7" stroke-width="1" />
-                  <text x="24" y="21" font-family="'JetBrains Mono', monospace" font-size="7.2" font-weight="700" fill="#A855F7" letter-spacing="0.6">AI SYNTHESIS</text>
-                  <text x="24" y="34" font-family="'JetBrains Mono', monospace" font-size="6.5" font-weight="600" fill="#7C3AED" letter-spacing="0.5" id="globe-synthesis-val">PROCESSING</text>
-                </g>
-
-                <!-- Floating Icon Badge 5: Bar Chart (Bottom-Right Under Synthesis) -->
-                <g class="hud-icon-badge" transform="translate(332, 300)">
-                  <rect width="28" height="20" rx="4" fill="#0A1424" stroke="#18304A" stroke-width="1.1" />
-                  <rect x="7" y="11" width="3" height="6" rx="0.5" fill="#7C3AED" />
-                  <rect x="12" y="7" width="3" height="10" rx="0.5" fill="#00E5FF" />
-                  <rect x="17" y="9" width="3" height="8" rx="0.5" fill="#168CFF" />
-                </g>
+                
+                <!-- HUD Corner Tick Accents -->
+                <path d="M14,14 L24,14 M14,14 L14,24" stroke="rgba(168, 85, 247, 0.6)" stroke-width="1.2" fill="none" />
+                <path d="M326,14 L316,14 M326,14 L326,24" stroke="rgba(168, 85, 247, 0.6)" stroke-width="1.2" fill="none" />
+                <path d="M14,226 L24,226 M14,226 L14,216" stroke="rgba(168, 85, 247, 0.6)" stroke-width="1.2" fill="none" />
+                <path d="M326,226 L316,226 M326,226 L326,216" stroke="rgba(168, 85, 247, 0.6)" stroke-width="1.2" fill="none" />
               </svg>
             </div>
-          </div>
-        </section>
 
-        <!-- RESEARCH PIPELINE STRIP (Exact Match with Reference Image) -->
-        <section class="research-pipeline-wrapper" id="workflow-progress-tracker">
-          <div class="pipeline-title-row">
-            <span class="pipeline-tag-label">RESEARCH PIPELINE</span>
-          </div>
-
-          <div class="pipeline-stages-container">
-            <div class="pipeline-nodes-group">
-              <!-- 01 SEARCH -->
-              <div class="pipeline-step-item" id="strip-stage-search">
-                <div class="step-indicator-ring">
-                  <span class="step-ring-icon">&#10003;</span>
-                </div>
-                <div class="step-text-details">
-                  <span class="step-headline">01 SEARCH</span>
-                  <span class="step-desc-note" id="search-desc">Scanning global sources...</span>
-                </div>
+            <!-- Global Scan Technical Metadata -->
+            <div class="global-scan-meta-grid">
+              <div class="scan-meta-item">
+                <span class="scan-meta-key">SOURCE NETWORK</span>
+                <span class="scan-meta-val" id="meta-source-net">READY</span>
               </div>
-
-              <div class="pipeline-strip-connector" id="connector-1"></div>
-
-              <!-- 02 VERIFY -->
-              <div class="pipeline-step-item" id="strip-stage-verify">
-                <div class="step-indicator-ring">
-                  <span class="step-ring-dot"></span>
-                </div>
-                <div class="step-text-details">
-                  <span class="step-headline">02 VERIFY</span>
-                  <span class="step-desc-note" id="verify-desc">Validating evidence...</span>
-                </div>
+              <div class="scan-meta-item">
+                <span class="scan-meta-key">INDEXING</span>
+                <span class="scan-meta-val" id="meta-indexing">STANDBY</span>
               </div>
-
-              <div class="pipeline-strip-connector" id="connector-2"></div>
-
-              <!-- 03 ANALYZE -->
-              <div class="pipeline-step-item" id="strip-stage-analyze">
-                <div class="step-indicator-ring">
-                  <span class="step-ring-dot"></span>
-                </div>
-                <div class="step-text-details">
-                  <span class="step-headline">03 ANALYZE</span>
-                  <span class="step-desc-note" id="analyze-desc">Processing information...</span>
-                </div>
+              <div class="scan-meta-item">
+                <span class="scan-meta-key">SIGNAL</span>
+                <span class="scan-meta-val" id="meta-signal">LIVE</span>
               </div>
-
-              <div class="pipeline-strip-connector" id="connector-3"></div>
-
-              <!-- 04 SYNTHESIZE -->
-              <div class="pipeline-step-item" id="strip-stage-synthesize">
-                <div class="step-indicator-ring">
-                  <span class="step-ring-dot"></span>
-                </div>
-                <div class="step-text-details">
-                  <span class="step-headline">04 SYNTHESIZE</span>
-                  <span class="step-desc-note" id="synthesize-desc">Building final answer...</span>
-                </div>
+              <div class="scan-meta-item">
+                <span class="scan-meta-key">SCAN MODE</span>
+                <span class="scan-meta-val" id="meta-scan-mode">IDLE</span>
               </div>
             </div>
+          </section>
 
-            <div class="progress-time-box">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-              <span>Total time</span>
-              <strong id="progress-total-time-val">21.4s</strong>
-            </div>
-          </div>
-        </section>
-
-        <!-- Live Status Bar -->
-        <div id="status-panel" class="live-status-card hidden">
-          <div class="live-status-left">
-            <div class="live-spinner-circle"></div>
-            <span class="live-status-msg" id="status-text">Autonomous research agent is investigating...</span>
-          </div>
-          <span class="live-step-count" id="step-counter-badge">Step 1 / 6</span>
         </div>
 
-        <!-- Error Banner -->
-        <div id="error-banner" class="error-banner-box hidden">
-          <div class="error-banner-title" id="error-title">SYSTEM NOTICE</div>
-          <div class="error-banner-desc" id="error-message"></div>
+        <!-- Error/Notice Alert Banner -->
+        <div id="error-banner" class="hud-error-banner hidden">
+          <div class="error-banner-badge">SYSTEM NOTICE</div>
+          <div class="error-banner-text" id="error-message"></div>
         </div>
 
-        <!-- ==================================================================
-             RESULTS AREA: 70/30 Architecture Matching Reference
-             ================================================================== -->
-        <div id="results-container" class="asymmetric-results-grid hidden">
-          <!-- LEFT 70% MAIN RESEARCH SUMMARY -->
-          <div class="main-answer-column">
-            <!-- RESEARCH SUMMARY CARD -->
-            <article class="answer-card-panel">
-              <div class="answer-card-header">
-                <div class="answer-header-left">
-                  <svg class="summary-doc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="4" y="3" width="16" height="18" rx="2"></rect>
-                    <line x1="8" y1="8" x2="16" y2="8"></line>
-                    <line x1="8" y1="12" x2="16" y2="12"></line>
-                    <line x1="8" y1="16" x2="12" y2="16"></line>
-                  </svg>
-                  <span class="answer-header-title">RESEARCH SUMMARY</span>
-                </div>
-                <div class="answer-header-badges">
-                  <span class="badge-tag success" id="response-status-badge">SUCCESS</span>
-                  <span class="badge-tag" id="response-steps-badge">2 / 6 STEPS</span>
-                  <span class="badge-tag" id="response-timing-badge">21.4s</span>
-                </div>
-              </div>
-
-              <h2 class="question-display-heading" id="answer-heading-title">What are the environmental effects of electric vehicles?</h2>
-
-              <div id="answer-content" class="markdown-answer-body"></div>
-
-              <!-- KEY FINDINGS SECTION (From Reference Image) -->
-              <div class="key-findings-wrapper" id="key-findings-panel">
-                <div class="key-findings-label">KEY FINDINGS</div>
-                <div class="key-findings-grid" id="key-findings-grid">
-                  <!-- Card 1: Production Impact -->
-                  <div class="finding-card">
-                    <div class="finding-header">
-                      <span class="finding-icon-wrap green">
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-                          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
-                        </svg>
-                      </span>
-                      <strong>Production Impact</strong>
-                    </div>
-                    <ul class="finding-bullets">
-                      <li>Higher carbon footprint during manufacturing</li>
-                      <li>Battery production emissions (lithium, cobalt, nickel)</li>
-                    </ul>
-                  </div>
-
-                  <!-- Card 2: Operation Impact -->
-                  <div class="finding-card">
-                    <div class="finding-header">
-                      <span class="finding-icon-wrap cyan">
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
-                          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                        </svg>
-                      </span>
-                      <strong>Operation Impact</strong>
-                    </div>
-                    <ul class="finding-bullets">
-                      <li>Lower tailpipe emissions</li>
-                      <li>Cleaner air in urban areas</li>
-                    </ul>
-                  </div>
-
-                  <!-- Card 3: Lifecycle Impact -->
-                  <div class="finding-card">
-                    <div class="finding-header">
-                      <span class="finding-icon-wrap emerald">
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
-                          <polyline points="23 4 23 10 17 10"></polyline>
-                          <polyline points="1 20 1 14 7 14"></polyline>
-                          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                        </svg>
-                      </span>
-                      <strong>Lifecycle Impact</strong>
-                    </div>
-                    <ul class="finding-bullets">
-                      <li>Recycling challenges for batteries</li>
-                      <li>Overall lower lifecycle emissions (long-term)</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <!-- CITATIONS FOOTER BAR -->
-              <div class="citations-row-bar">
-                <span class="citations-lead-label">CITATIONS:</span>
-                <div class="citations-pills-wrap" id="citations-pills-container">
-                  <span class="citation-tag-badge" data-source-id="S1">[S1]</span>
-                  <span class="citation-tag-badge" data-source-id="S2">[S2]</span>
-                  <span class="citation-tag-badge" data-source-id="S3">[S3]</span>
-                </div>
-              </div>
-            </article>
-
-            <!-- AGENT ACTIVITY CONSOLE (Exact match with reference table) -->
-            <section class="activity-card-panel">
-              <div class="activity-toggle-header" id="activity-toggle">
-                <div class="activity-title-group">
-                  <svg class="activity-bolt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                  </svg>
-                  <span>AGENT ACTIVITY</span>
-                </div>
-                <div class="activity-right-meta">
-                  <span class="activity-count-pill" id="activity-count">3 Actions</span>
-                  <svg class="chevron-icon" id="activity-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                  </svg>
-                </div>
-              </div>
-              <div id="activity-body">
-                <table class="activity-log-table">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>TOOL</th>
-                      <th>STATUS</th>
-                      <th>DETAILS</th>
-                      <th style="text-align:right;">TIME</th>
-                    </tr>
-                  </thead>
-                  <tbody id="activity-log-body">
-                    <!-- Dynamic Log rows: 01 web_search SUCCESS 2.81s -->
-                  </tbody>
-                </table>
-              </div>
-            </section>
-
-            <!-- EXTENDED NARRATIVE CONTAINER -->
-            <div id="extended-narrative-container" class="hidden"></div>
-
-            <!-- RAW AGENT STATE (Collapsible Inspector Drawer) -->
-            <details class="raw-state-details">
-              <summary class="raw-state-summary">
-                <span class="raw-state-title">&lt;&gt; Inspect Raw Agent State</span>
-                <span class="raw-json-pill">JSON</span>
-              </summary>
-              <pre id="raw-json-viewer" class="raw-state-code">No agent state captured.</pre>
-            </details>
-          </div>
-
-          <!-- RIGHT 30% EVIDENCE PANEL -->
-          <aside class="evidence-card-panel">
-            <div class="evidence-header-row">
-              <div class="evidence-header-left">
-                <svg class="evidence-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="4" y="4" width="16" height="16" rx="2"></rect>
-                  <line x1="8" y1="9" x2="16" y2="9"></line>
-                  <line x1="8" y1="13" x2="16" y2="13"></line>
-                  <line x1="8" y1="17" x2="13" y2="17"></line>
-                </svg>
-                <span class="evidence-header-title">EVIDENCE</span>
-              </div>
-              <span class="evidence-count-label" id="sources-count">4 SOURCES</span>
+        <!-- BOTTOM SECTION: CLEAN 3-COLUMN ARRANGEMENT -->
+        <!-- AGENT ACTIVITY (1fr) | RESEARCH SUMMARY (1fr) | EVIDENCE (0.55fr) -->
+        <div class="bottom-three-columns">
+          
+          <!-- 1. AGENT ACTIVITY PANEL -->
+          <section class="hud-panel activity-hud-panel">
+            <div class="hud-box-header">
+              <span class="hud-box-title">AGENT ACTIVITY</span>
             </div>
 
-            <div id="sources-list" class="evidence-sources-stream">
-              <!-- Evidence items populated dynamically with [S1], domain, title, snippet, OPEN -> -->
+            <div class="activity-table-container">
+              <table class="activity-log-table">
+                <thead>
+                  <tr>
+                    <th>TIME</th>
+                    <th>ACTION</th>
+                    <th>STATUS</th>
+                  </tr>
+                </thead>
+                <tbody id="activity-rows-body">
+                  <tr class="activity-empty-row">
+                    <td colspan="3" class="activity-empty-cell">
+                      <div class="hud-empty-state">
+                        <span class="hud-empty-title">NO RESEARCH ACTIVITY</span>
+                        <span class="hud-empty-sub">Start a research query to begin.</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </aside>
+
+            <div class="activity-footer-bar">
+              <span class="activity-hazard-stripes">/////</span>
+              <span class="activity-footer-label" id="activity-footer-status">SYSTEM READY // IDLE</span>
+            </div>
+          </section>
+
+          <!-- 2. RESEARCH SUMMARY PANEL -->
+          <section class="hud-panel summary-hud-panel">
+            <div class="hud-box-header">
+              <span class="hud-box-title">RESEARCH SUMMARY</span>
+            </div>
+
+            <div class="summary-body-wrapper" id="summary-body-content">
+              <!-- Query title -->
+              <h2 class="summary-headline empty" id="summary-headline">
+                RESEARCH SUMMARY
+              </h2>
+
+              <!-- Summary synthesis content -->
+              <div class="summary-paragraphs" id="summary-paragraphs">
+                <p class="summary-empty-msg">Your research answer will appear here after you search.</p>
+              </div>
+
+              <!-- Traceable Citation HUD Tags -->
+              <div class="summary-citations-footer hidden" id="summary-citations-footer">
+                <div class="citation-pills-cluster" id="citation-pills-row"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 3. EVIDENCE PANEL -->
+          <section class="hud-panel evidence-hud-panel">
+            <div class="hud-box-header">
+              <span class="hud-box-title">EVIDENCE</span>
+            </div>
+
+            <div class="evidence-sources-scroll" id="evidence-container">
+              <div class="evidence-empty-box" id="evidence-empty-box">
+                <div class="hud-empty-state">
+                  <span class="hud-empty-title">EVIDENCE</span>
+                  <span class="hud-empty-sub">No sources yet.</span>
+                  <span class="hud-empty-detail">Search for a topic to retrieve verified sources.</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
         </div>
       </main>
 
-      <!-- ==================================================================
-           VIEW B: PERSISTENT RESEARCH INTELLIGENCE ARCHIVE
-           ================================================================== -->
-      <section id="history-view" class="view-section hidden">
-        <div class="history-view-header">
-          <div>
-            <h1 class="history-title">Research Intelligence Archive</h1>
-            <p class="history-sub">Persistent database archive of verified research investigations, tool metrics, and citations.</p>
-          </div>
-          <div class="history-btn-actions">
-            <button type="button" id="refresh-history-btn" class="futuristic-btn">
-              <span>&#8635; Refresh</span>
-            </button>
-            <button type="button" id="back-to-research-btn" class="futuristic-btn gradient-primary">
-              <span>+ New Research</span>
-            </button>
-          </div>
-        </div>
+    </div>
 
-        <div id="history-loading-spinner" class="live-status-card hidden">
-          <div class="live-status-left">
-            <div class="live-spinner-circle"></div>
-            <span class="live-status-msg">Loading saved research sessions from database...</span>
-          </div>
-        </div>
+    <!-- ====================================================================
+         BOTTOM STATUS BAR / FOOTER
+         ==================================================================== -->
+    <footer class="hud-footer-bar">
+      <div class="footer-left-meta">
+        <span class="footer-status-dot"></span>
+        <span class="footer-status-label">READY</span>
+        <span class="footer-agent-title">AgenticX Research Agent</span>
+        <span class="footer-sep">//</span>
+        <span class="footer-motto">Build better answers with evidence.</span>
+      </div>
+      <div class="footer-right-credits">
+        <span>POWERED BY GEMINI</span>
+        <span class="footer-dot-sep">&bull;</span>
+        <span>TAVILY</span>
+        <span class="footer-dot-sep">&bull;</span>
+        <span>FASTAPI</span>
+        <span class="footer-hazard-stripes" aria-hidden="true">/////</span>
+      </div>
+    </footer>
 
-        <div id="history-empty-state" class="empty-history-wrapper hidden">
-          <h2 class="empty-title">No Saved Sessions</h2>
-          <p class="empty-sub">Completed research investigations and citations are automatically recorded in persistent storage.</p>
-          <button type="button" class="futuristic-btn gradient-primary" id="empty-start-btn">Start Research</button>
-        </div>
+  </div>
 
-        <div id="history-list" class="history-cards-stream"></div>
-      </section>
+  <!-- ======================================================================
+       HUD MODAL: SAVED RESEARCH HISTORY
+       ====================================================================== -->
+  <div id="history-modal" class="hud-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="history-modal-title">
+    <div class="hud-modal-card">
+      <div class="modal-card-header">
+        <div class="modal-header-left">
+          <span class="modal-corner-bracket">[+]</span>
+          <h2 class="modal-title" id="history-modal-title">RESEARCH INTELLIGENCE ARCHIVE</h2>
+        </div>
+        <button type="button" class="modal-close-btn" id="history-modal-close" aria-label="Close modal">&times;</button>
+      </div>
 
-      <!-- BOTTOM TELEMETRY TICKER FOOTER -->
-      <footer class="app-footer">
-        <div class="footer-left-telemetry">
-          <span class="footer-agent-tag">&#128100; AGENT-01</span>
-          <span class="footer-sep">//</span>
-          <span class="footer-secure-tag">[SECURE MODE]</span>
-          <span class="footer-sep">//</span>
-          <span>TRACE ENABLED</span>
-          <span class="footer-sep">//</span>
-          <span class="footer-validation-tag">SOURCE VALIDATION: ON</span>
+      <div class="modal-card-body">
+        <div id="history-modal-spinner" class="modal-spinner-row hidden">
+          <span class="mini-spinner"></span>
+          <span>Loading historical sessions from persistent store...</span>
         </div>
-        <div class="footer-right-tags">
-          <span>GLOBAL INTELLIGENCE</span>
-          <span class="footer-sep">//</span>
-          <span>AI RESEARCH</span>
-          <span class="footer-sep">//</span>
-          <span>SOURCES</span>
-          <span class="footer-sep">//</span>
-          <span>EVIDENCE</span>
-          <span class="footer-sep">//</span>
-          <span class="footer-truth-tag">TRUTH</span>
-          <svg class="ecg-pulse-svg footer-ecg" viewBox="0 0 60 16" fill="none">
-            <polyline points="0,8 18,8 22,2 26,14 30,5 34,10 38,8 60,8" stroke="#00E5FF" stroke-width="1.4" fill="none" />
-          </svg>
+        <div id="history-modal-empty" class="modal-empty-state hidden">
+          <p>No saved research investigations recorded yet.</p>
         </div>
-      </footer>
+        <div class="history-sessions-list" id="history-sessions-container">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
     </div>
   </div>
 
-  <script src="/static/app.js?v=3"></script>
+  <!-- ======================================================================
+       HUD MODAL: SETTINGS & SYSTEM TELEMETRY
+       ====================================================================== -->
+  <div id="settings-modal" class="hud-modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
+    <div class="hud-modal-card">
+      <div class="modal-card-header">
+        <div class="modal-header-left">
+          <span class="modal-corner-bracket">[+]</span>
+          <h2 class="modal-title" id="settings-modal-title">SYSTEM CONFIGURATION & TELEMETRY</h2>
+        </div>
+        <button type="button" class="modal-close-btn" id="settings-modal-close" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="modal-card-body settings-grid-body">
+        <div class="settings-spec-row">
+          <span class="spec-label">COGNITIVE ENGINE</span>
+          <span class="spec-val">Google Gemini 2.5 Flash (Free Tier Optimized)</span>
+        </div>
+        <div class="settings-spec-row">
+          <span class="spec-label">SEARCH RETRIEVAL</span>
+          <span class="spec-val">Tavily Web Search API (Domain Verified)</span>
+        </div>
+        <div class="settings-spec-row">
+          <span class="spec-label">DEEP PAGE SCRAPER</span>
+          <span class="spec-val">fetch_page HTTP Client (Markdown Parser)</span>
+        </div>
+        <div class="settings-spec-row">
+          <span class="spec-label">STEP SAFETY CEILING</span>
+          <span class="spec-val">6 Maximum Tool Iterations (Hard Enforced)</span>
+        </div>
+        <div class="settings-spec-row">
+          <span class="spec-label">CITATION VALIDATOR</span>
+          <span class="spec-val">Deterministic Regex [S1..Sn] Claim Verification</span>
+        </div>
+        <div class="settings-spec-row">
+          <span class="spec-label">PERSISTENCE LAYER</span>
+          <span class="spec-val">SQLite Local Store (data/history.db)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js?v=5"></script>
 </body>
 </html>
