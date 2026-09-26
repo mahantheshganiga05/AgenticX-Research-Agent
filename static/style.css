@@ -2131,195 +2131,904 @@ button {
 }
 
 /* ==========================================================================
-   RESPONSIVE MEDIA QUERIES (NO HORIZONTAL OVERFLOW)
+   RESPONSIVE MEDIA QUERIES (NO HORIZONTAL OVERFLOW - MOBILE & TABLET)
+   Breakpoints:
+     - <= 1024px: Tablet Landscape (prevents search clipping & global scan squish)
+     - <= 768px:  Tablet Portrait & Mobile (1-column, compact top nav, reordered sections)
+     - <= 480px:  Small Mobile (touch-friendly targets, compact cyber styling)
+     - <= 360px:  Ultra-Compact Mobile
    ========================================================================== */
 
-/* Large Tablets & Medium Screens (max-width: 1200px) */
-@media (max-width: 1200px) {
+/* --------------------------------------------------------------------------
+   1. TABLET LANDSCAPE & COMPACT LAPTOP (max-width: 1024px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .terminal-shell {
+    padding: 12px 14px;
+    gap: 10px;
+    max-width: 100%;
+  }
+
   .hud-header {
-    grid-template-columns: 210px minmax(0, 1fr);
+    grid-template-columns: 200px minmax(0, 1fr);
     gap: 10px;
   }
 
   .header-brand-box {
-    width: 210px;
+    width: 200px;
+    padding: 6px 10px;
+  }
+
+  .brand-title {
+    font-size: 15px;
+  }
+
+  .header-center-pill {
+    display: none; /* Hide long center pill to prevent header overflow */
   }
 
   .hud-main-grid {
-    grid-template-columns: 210px minmax(0, 1fr);
+    grid-template-columns: 200px minmax(0, 1fr);
     gap: 10px;
   }
 
   .hud-sidebar {
-    width: 210px;
-    min-width: 210px;
-    max-width: 210px;
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
   }
 
   .workspace-top-row {
-    grid-template-columns: minmax(0, 1fr) 280px;
+    grid-template-columns: minmax(0, 1fr) 260px;
     gap: 10px;
   }
 
   .intelligence-hud-panel {
-    width: 280px;
-    min-width: 280px;
-    max-width: 280px;
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+  }
+
+  .intel-sub-tags-bar {
+    font-size: 7px;
+    padding: 5px 8px;
+    letter-spacing: 0.3px;
+    overflow: hidden;
+  }
+
+  /* Stack Hero heading and search terminal vertically so search button never clips */
+  .hero-content,
+  .hero-split-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 
   .hero-display-heading {
-    font-size: 24px;
+    font-size: 23px;
+  }
+
+  .search-button,
+  .cyber-search-submit-btn {
+    flex: 0 0 115px;
+  }
+
+  .pipeline-cards-row,
+  .pipeline-grid {
+    gap: 8px;
+  }
+
+  .pipeline-step-card {
+    padding: 10px 8px;
+  }
+
+  .pipe-step-title {
+    font-size: 11.5px;
+  }
+
+  .pipe-card-desc {
+    font-size: 10px;
+  }
+
+  .bottom-three-columns,
+  .center-bottom-columns {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.7fr);
+    gap: 10px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. TABLET PORTRAIT & MOBILE CORE (max-width: 768px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  :root {
+    --header-height: auto;
+    --footer-height: auto;
+  }
+
+  html,
+  body.terminal-body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  /* 2. MAIN CONTENT - 100% width with 12-14px side padding, no horizontal overflow */
+  .terminal-shell {
+    width: 100%;
+    max-width: 100vw;
+    padding: 12px 14px;
+    gap: 12px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  /* HEADER & BRANDING */
+  .hud-header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: auto;
+    gap: 8px;
+    width: 100%;
+    min-height: auto;
+    box-sizing: border-box;
+  }
+
+  .header-brand-box {
+    width: 100%;
+    height: 44px;
+    padding: 6px 12px;
+    justify-content: flex-start;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+    box-sizing: border-box;
+  }
+
+  .brand-logo-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .brand-title {
+    font-size: 15px;
+  }
+
+  .brand-sub {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+
+  .header-right-meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
   .header-center-pill {
     display: none;
   }
-}
 
-/* Medium Tablets & Stacked Layout (max-width: 992px) */
-@media (max-width: 992px) {
-  .hud-header {
-    grid-template-columns: 100%;
-    gap: 10px;
-  }
-
-  .header-brand-box {
+  .header-live-indicator {
     width: 100%;
     justify-content: center;
+    padding: 6px 10px;
+    font-size: 10px;
+    box-sizing: border-box;
   }
 
+  .header-telemetry-capsule {
+    width: 100%;
+    justify-content: space-between;
+    padding: 6px 12px;
+    font-size: 9.5px;
+    clip-path: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  /* 1. SIDEBAR & NAVIGATION
+     Sidebar container becomes transparent so children are placed in natural order:
+     - Navigation buttons: TOP (order: 1)
+     - Center workspace: MIDDLE (order: 2)
+     - System status: BOTTOM (order: 3, before footer)
+  */
   .hud-main-grid {
-    grid-template-columns: 100%;
+    display: flex;
+    flex-direction: column;
     gap: 12px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
   .hud-sidebar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: contents;
+  }
+
+  /* Compact 3-Button Top Navigation Bar */
+  .sidebar-nav-container {
+    order: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
     width: 100%;
+    box-sizing: border-box;
+  }
+
+  .sidebar-nav-btn {
+    flex: 1 1 0;
     min-width: 0;
-    max-width: 100%;
-    gap: 10px;
+    height: 42px;
+    padding: 0 8px;
+    justify-content: center;
+    gap: 6px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
+    box-sizing: border-box;
+  }
+
+  .sidebar-nav-btn span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .nav-btn-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
   }
 
   .sidebar-matrix-panel {
     display: none;
   }
 
-  .system-status-box {
-    grid-column: span 3;
+  /* Center Workspace Container */
+  .hud-center-workspace {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
+  /* 3. HERO / SEARCH TERMINAL */
+  .hero-terminal-panel {
+    padding: 16px 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .panel-cutout-tab {
+    font-size: 8.5px;
+    padding: 3px 10px;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 100%, 0 100%);
+  }
+
+  .hero-content,
+  .hero-split-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    margin-top: 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hero-text-side {
+    width: 100%;
+    gap: 10px;
+    box-sizing: border-box;
+  }
+
+  .hero-display-heading {
+    font-size: 22px;
+    line-height: 1.25;
+    word-break: break-word;
+  }
+
+  .hero-try-chips {
+    font-size: 9.5px;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .quick-chip-btn {
+    padding: 4px 9px;
+    font-size: 9px;
+    min-height: 28px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .hero-search-side {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .search-form,
+  .terminal-search-frame {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 6px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .search-input-wrapper,
+  .search-input-inner {
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .search-input,
+  .cyber-search-input {
+    width: 100%;
+    height: 52px;
+    padding: 0 42px 0 14px;
+    font-size: 13px;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .search-clear-cross {
+    right: 12px;
+    font-size: 18px;
+  }
+
+  .search-button,
+  .cyber-search-submit-btn {
+    width: 100%;
+    flex: 0 0 48px;
+    height: 48px;
+    font-size: 12.5px;
+    justify-content: center;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
+    box-sizing: border-box;
+  }
+
+  /* 4. RESEARCH PIPELINE - Clean 2-Column Mobile Layout */
+  .pipeline-hud-panel {
+    padding: 12px 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .pipeline-cards-row,
+  .pipeline-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .pipeline-step-card {
+    padding: 10px 12px;
+    gap: 6px;
+    min-height: 76px;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+    box-sizing: border-box;
+  }
+
+  .pipe-step-title {
+    font-size: 11.5px;
+    letter-spacing: 0.4px;
+  }
+
+  .pipe-status-icon-circle {
+    width: 16px;
+    height: 16px;
+    font-size: 9px;
+  }
+
+  .pipe-card-desc {
+    font-size: 10px;
+    min-height: 20px;
+    line-height: 1.3;
+  }
+
+  .pipe-progress-line {
+    height: 3px;
+    margin-top: 2px;
+  }
+
+  /* 5. GLOBAL SCAN - Stacked below main research section with proper mobile height */
   .workspace-top-row {
-    grid-template-columns: 100%;
+    display: flex;
+    flex-direction: column;
     gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .workspace-top-left {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .intelligence-hud-panel {
     width: 100%;
     min-width: 0;
     max-width: 100%;
+    height: auto;
+    box-sizing: border-box;
   }
 
-  .hero-content,
-  .hero-split-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
+  .intel-sub-tags-bar {
+    font-size: 8px;
+    padding: 6px 10px;
+    letter-spacing: 0.5px;
+    box-sizing: border-box;
   }
 
+  .globe-visualization-frame {
+    height: 195px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    box-sizing: border-box;
+  }
+
+  .hologram-globe-svg {
+    width: 100%;
+    max-width: 320px;
+    height: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .global-scan-meta-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    padding: 8px 10px;
+    box-sizing: border-box;
+  }
+
+  .scan-meta-item {
+    font-size: 8px;
+    padding: 4px 6px;
+    box-sizing: border-box;
+  }
+
+  /* BOTTOM THREE PANELS (Agent Activity, Research Summary, Evidence) - Stacked Vertically */
   .bottom-three-columns,
   .center-bottom-columns {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-}
-
-/* Mobile Devices (max-width: 768px) */
-@media (max-width: 768px) {
-  .terminal-shell {
-    padding: 8px;
-    gap: 10px;
-  }
-
-  .hud-header {
     display: flex;
     flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  /* 6. AGENT ACTIVITY */
+  .activity-hud-panel {
+    width: 100%;
     height: auto;
-    gap: 8px;
-    align-items: stretch;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
-  .header-brand-box {
-    justify-content: center;
+  .activity-table-container {
+    width: 100%;
+    max-height: 220px;
+    min-height: auto;
+    padding: 6px 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
   }
 
-  .header-live-indicator {
-    justify-content: center;
+  .activity-log-table {
+    width: 100%;
+    table-layout: fixed;
+    box-sizing: border-box;
   }
 
-  .header-telemetry-capsule {
-    justify-content: space-around;
+  .activity-log-table th:nth-child(1),
+  .activity-log-table td:nth-child(1) {
+    width: 70px;
+    white-space: nowrap;
   }
 
-  .hud-sidebar {
-    grid-template-columns: 1fr;
+  .activity-log-table th:nth-child(2),
+  .activity-log-table td:nth-child(2) {
+    width: auto;
   }
 
-  .sidebar-nav-container {
-    flex-direction: row;
+  .activity-log-table th:nth-child(3),
+  .activity-log-table td:nth-child(3) {
+    width: 78px;
+    text-align: right;
+    white-space: nowrap;
   }
 
-  .sidebar-nav-btn {
-    flex: 1;
-    justify-content: center;
-    padding: 8px;
+  .activity-log-table td {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    padding: 6px 4px;
     font-size: 10px;
   }
 
-  .hero-content,
-  .hero-split-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  /* 7. RESEARCH SUMMARY */
+  .summary-hud-panel {
+    width: 100%;
+    height: auto;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
-  /* Search input stacks gracefully on small mobile */
-  .search-form,
-  .terminal-search-frame {
-    flex-direction: column;
+  .summary-body-wrapper {
+    padding: 12px 14px;
     gap: 10px;
-    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .summary-headline {
+    font-size: 15.5px;
+    line-height: 1.35;
+    word-break: break-word;
+  }
+
+  .summary-paragraphs {
+    max-height: none;
+    overflow-y: visible;
+    padding-right: 0;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--text-main);
+  }
+
+  .summary-paragraphs p {
+    margin-bottom: 10px;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .inline-citation-tag,
+  .citation-tag {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    word-break: normal;
+    font-size: 9.5px;
+    padding: 2px 6px;
+    margin: 0 2px;
+    vertical-align: baseline;
+  }
+
+  .summary-citations-footer {
+    padding-top: 10px;
+  }
+
+  .citation-pills-cluster {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  /* 8. EVIDENCE */
+  .evidence-hud-panel {
+    width: 100%;
+    height: auto;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .evidence-sources-scroll {
+    max-height: none;
+    overflow-y: visible;
+    padding: 8px 10px;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .evidence-source-card {
+    width: 100%;
+    padding: 10px 12px;
+    gap: 7px;
+    box-sizing: border-box;
+  }
+
+  .evidence-card-top {
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .evidence-id-pill {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--purple-glow);
+    flex-shrink: 0;
+  }
+
+  .evidence-title-link {
+    font-size: 12px;
+    line-height: 1.4;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    -webkit-line-clamp: 3;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .evidence-card-bottom {
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .evidence-domain-row {
+    min-width: 0;
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .evidence-domain-name {
+    max-width: 160px;
+    word-break: break-all;
+    font-size: 9.5px;
+  }
+
+  .evidence-sparkline-box {
+    width: 55px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  /* 9. SYSTEM STATUS - Placed at bottom (order: 3) in a clean 2-column cyber badge grid */
+  .system-status-box {
+    order: 3;
+    width: 100%;
+    min-width: 0;
+    margin-top: 4px;
+    box-sizing: border-box;
+  }
+
+  .status-table-header-row {
+    display: none;
+  }
+
+  .status-table-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 10px 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .status-table-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    background: var(--panel-bg-dark);
+    border: 1px solid rgba(168, 85, 247, 0.15);
+    border-radius: 4px;
+    padding: 8px 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .col-component {
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.8px;
+    font-weight: 700;
+  }
+
+  .col-status {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-bright);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* 10. FOOTER - Stacked vertically */
+  .hud-footer-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    padding: 12px 14px;
+    gap: 8px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .footer-left-meta {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    font-size: 9.5px;
+  }
+
+  .footer-sep {
+    display: none;
+  }
+
+  .footer-right-credits {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    font-size: 9.5px;
+    color: var(--purple-glow);
+  }
+
+  .footer-hazard-stripes {
+    display: none;
+  }
+
+  /* MODALS (History & Settings) */
+  .hud-modal-backdrop {
+    padding: 12px;
+  }
+
+  .hud-modal-card {
+    width: 100%;
+    max-height: 90vh;
+  }
+
+  .modal-card-header {
+    padding: 10px 14px;
+  }
+
+  .modal-title {
+    font-size: 12px;
+  }
+
+  .modal-card-body {
+    padding: 12px 14px;
+  }
+
+  .settings-spec-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 8px 10px;
+  }
+
+  .spec-label {
+    font-size: 10px;
+  }
+
+  .spec-val {
+    font-size: 10.5px;
+    word-break: break-word;
+  }
+
+  .history-item-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .history-query-title {
+    font-size: 12px;
+    word-break: break-word;
+  }
+
+  /* 11. MOBILE VISUAL POLISH - Toned glow on small screens for smooth performance */
+  .hud-panel {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. SMALL MOBILE PHONES (max-width: 480px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .terminal-shell {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .header-telemetry-capsule {
+    padding: 5px 8px;
+    font-size: 9px;
+    gap: 4px;
+  }
+
+  .telemetry-stripes {
+    display: none;
+  }
+
+  .telemetry-item {
+    gap: 4px;
+  }
+
+  .sidebar-nav-btn {
+    font-size: 9.5px;
+    padding: 0 4px;
+    gap: 4px;
+  }
+
+  .nav-btn-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .hero-terminal-panel {
+    padding: 14px 10px;
+  }
+
+  .hero-display-heading {
+    font-size: 19.5px;
+    letter-spacing: -0.3px;
   }
 
   .search-input,
   .cyber-search-input {
-    height: 56px;
-    padding: 0 16px;
+    height: 48px;
+    font-size: 12.5px;
+    padding: 0 38px 0 12px;
   }
 
   .search-button,
   .cyber-search-submit-btn {
-    width: 100%;
-    flex: 0 0 54px;
-    height: 54px;
+    height: 46px;
+    font-size: 12px;
   }
 
+  .pipe-step-title {
+    font-size: 10.5px;
+  }
+
+  .pipe-card-desc {
+    font-size: 9.5px;
+  }
+
+  .status-table-container {
+    gap: 6px;
+    padding: 8px 10px;
+  }
+
+  .col-status {
+    font-size: 10px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. ULTRA-COMPACT MOBILE PHONES (max-width: 360px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 360px) {
   .pipeline-cards-row,
   .pipeline-grid {
     grid-template-columns: 1fr;
-    gap: 8px;
   }
 
-  .bottom-three-columns,
-  .center-bottom-columns {
+  .status-table-container {
     grid-template-columns: 1fr;
   }
 
-  .hud-footer-bar {
-    flex-direction: column;
-    height: auto;
-    padding: 10px;
-    gap: 6px;
-    text-align: center;
+  .sidebar-nav-btn span {
+    font-size: 9px;
   }
 }
 
@@ -2331,3 +3040,4 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+
