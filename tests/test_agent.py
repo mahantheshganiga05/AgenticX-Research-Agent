@@ -127,3 +127,36 @@ class TestFastAPIRoutes:
         response = client.get("/")
         assert response.status_code == 200
         assert "Tool-Using Research Agent" in response.text
+
+    def test_static_files_served(self):
+        client = TestClient(app)
+        css_resp = client.get("/static/style.css")
+        assert css_resp.status_code == 200
+        js_resp = client.get("/static/app.js")
+        assert js_resp.status_code == 200
+
+    def test_api_research_endpoint(self):
+        client = TestClient(app)
+        from app.agent.state import AgentState
+        mock_state = AgentState(
+            question="What is Agentic AI?",
+            final_answer="Agentic AI utilizes autonomous reasoning and tools. [S1]\n\n### Sources\n- [S1] https://example.com/ai",
+            steps_used=2,
+            max_steps=6,
+            status="completed",
+        )
+        with patch.object(ResearchAgent, "run", return_value=mock_state):
+            response = client.post("/api/research", json={"question": "What is Agentic AI?", "max_steps": 6})
+            assert response.status_code == 200
+            data = response.json()
+            assert data["question"] == "What is Agentic AI?"
+            assert "[S1]" in data["answer"]
+            assert data["status"] == "completed"
+            assert data["steps_used"] == 2
+
+    def test_history_store_vercel_environment_resolution(self):
+        import os
+        from app.services.history_store import get_default_db_path
+        with patch.dict(os.environ, {"VERCEL": "1"}, clear=False):
+            vercel_path = get_default_db_path()
+            assert "tmp" in str(vercel_path).lower() or "temp" in str(vercel_path).lower()

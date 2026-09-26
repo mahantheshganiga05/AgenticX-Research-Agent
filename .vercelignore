@@ -1,0 +1,20 @@
+# Development & Testing
+tests/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pyo
+
+# Local Data & SQLite
+data/
+*.db
+
+# Secrets & Environment
+.env
+*.env.local
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

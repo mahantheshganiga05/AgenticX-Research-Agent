@@ -5,14 +5,33 @@ tool activity, steps used, status, and latency metrics without requiring externa
 """
 
 import json
+import logging
+import os
 import sqlite3
+import tempfile
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-DB_DIR = Path(__file__).resolve().parent.parent.parent / "data"
-DB_PATH = DB_DIR / "history.db"
+logger = logging.getLogger("agenticx.history")
+
+
+def get_default_db_path() -> Path:
+    """Resolve the SQLite database path based on the environment.
+
+    In serverless environments like Vercel or AWS Lambda, the deployment directory (/var/task)
+    is strictly read-only, so runtime file writes must use the ephemeral /tmp directory.
+    In local development, the repository's ./data/history.db path is preserved.
+    """
+    if os.getenv("SQLITE_DB_PATH"):
+        return Path(os.environ["SQLITE_DB_PATH"])
+    if os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"):
+        return Path(tempfile.gettempdir()) / "data" / "history.db"
+    return Path(__file__).resolve().parent.parent.parent / "data" / "history.db"
+
+
+DB_PATH = get_default_db_path()
 
 
 class HistoryStore:
@@ -23,37 +42,43 @@ class HistoryStore:
         self._ensure_db()
 
     def _get_connection(self) -> sqlite3.Connection:
-        self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        except OSError as oe:
+            logger.warning(f"Could not create database directory {self.db_path.parent}: {oe}")
         conn = sqlite3.connect(str(self.db_path), timeout=10.0)
         conn.row_factory = sqlite3.Row
         return conn
 
     def _ensure_db(self) -> None:
         """Create the research history table if it doesn't already exist."""
-        with self._get_connection() as conn:
-            conn.execute(
-                """
-                CREATE TABLE IF NOT EXISTS research_history (
-                    id TEXT PRIMARY KEY,
-                    question TEXT NOT NULL,
-                    answer TEXT NOT NULL,
-                    sources_json TEXT NOT NULL,
-                    tool_history_json TEXT NOT NULL,
-                    steps_used INTEGER NOT NULL,
-                    max_steps INTEGER NOT NULL,
-                    status TEXT NOT NULL,
-                    timing_json TEXT,
-                    created_at TEXT NOT NULL
+        try:
+            with self._get_connection() as conn:
+                conn.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS research_history (
+                        id TEXT PRIMARY KEY,
+                        question TEXT NOT NULL,
+                        answer TEXT NOT NULL,
+                        sources_json TEXT NOT NULL,
+                        tool_history_json TEXT NOT NULL,
+                        steps_used INTEGER NOT NULL,
+                        max_steps INTEGER NOT NULL,
+                        status TEXT NOT NULL,
+                        timing_json TEXT,
+                        created_at TEXT NOT NULL
+                    )
+                    """
                 )
-                """
-            )
-            conn.execute(
-                """
-                CREATE INDEX IF NOT EXISTS idx_history_created_at
-                ON research_history (created_at DESC)
-                """
-            )
-            conn.commit()
+                conn.execute(
+                    """
+                    CREATE INDEX IF NOT EXISTS idx_history_created_at
+                    ON research_history (created_at DESC)
+                    """
+                )
+                conn.commit()
+        except Exception as e:
+            logger.warning(f"Could not initialize research history database table: {e}")
 
     def save_session(
         self,
@@ -109,17 +134,21 @@ class HistoryStore:
 
     def list_sessions(self, limit: int = 50) -> list[dict[str, Any]]:
         """Retrieve recent research sessions for the history list view."""
-        with self._get_connection() as conn:
-            cursor = conn.execute(
-                """
-                SELECT id, question, answer, sources_json, steps_used, max_steps, status, timing_json, created_at
-                FROM research_history
-                ORDER BY created_at DESC
-                LIMIT ?
-                """,
-                (limit,),
-            )
-            rows = cursor.fetchall()
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.execute(
+                    """
+                    SELECT id, question, answer, sources_json, steps_used, max_steps, status, timing_json, created_at
+                    FROM research_history
+                    ORDER BY created_at DESC
+                    LIMIT ?
+                    """,
+                    (limit,),
+                )
+                rows = cursor.fetchall()
+        except Exception as e:
+            logger.warning(f"Could not list research sessions from SQLite: {e}")
+            return []
 
         results = []
         for r in rows:
@@ -145,17 +174,21 @@ class HistoryStore:
 
     def get_session(self, session_id: str) -> Optional[dict[str, Any]]:
         """Retrieve the complete session data by ID."""
-        with self._get_connection() as conn:
-            cursor = conn.execute(
-                """
-                SELECT id, question, answer, sources_json, tool_history_json,
-                       steps_used, max_steps, status, timing_json, created_at
-                FROM research_history
-                WHERE id = ?
-                """,
-                (session_id,),
-            )
-            row = cursor.fetchone()
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.execute(
+                    """
+                    SELECT id, question, answer, sources_json, tool_history_json,
+                           steps_used, max_steps, status, timing_json, created_at
+                    FROM research_history
+                    WHERE id = ?
+                    """,
+                    (session_id,),
+                )
+                row = cursor.fetchone()
+        except Exception as e:
+            logger.warning(f"Could not retrieve research session {session_id} from SQLite: {e}")
+            return None
 
         if not row:
             return None
@@ -175,16 +208,23 @@ class HistoryStore:
 
     def delete_session(self, session_id: str) -> bool:
         """Delete a session from history."""
-        with self._get_connection() as conn:
-            cursor = conn.execute("DELETE FROM research_history WHERE id = ?", (session_id,))
-            conn.commit()
-            return cursor.rowcount > 0
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.execute("DELETE FROM research_history WHERE id = ?", (session_id,))
+                conn.commit()
+                return cursor.rowcount > 0
+        except Exception as e:
+            logger.warning(f"Could not delete research session {session_id} from SQLite: {e}")
+            return False
 
     def clear_all(self) -> None:
         """Clear all stored sessions."""
-        with self._get_connection() as conn:
-            conn.execute("DELETE FROM research_history")
-            conn.commit()
+        try:
+            with self._get_connection() as conn:
+                conn.execute("DELETE FROM research_history")
+                conn.commit()
+        except Exception as e:
+            logger.warning(f"Could not clear research sessions from SQLite: {e}")
 
 
 # Singleton instance
